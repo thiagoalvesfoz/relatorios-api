@@ -1,4 +1,4 @@
-package br.com.desbravador.projetoacelera.dto;
+package br.com.desbravador.projetoacelera.users.dto;
 
 import java.time.Instant;
 

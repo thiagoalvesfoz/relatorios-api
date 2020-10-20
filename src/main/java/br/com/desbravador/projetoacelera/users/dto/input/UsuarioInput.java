@@ -1,4 +1,4 @@
-package br.com.desbravador.projetoacelera.dto.input;
+package br.com.desbravador.projetoacelera.users.dto.input;
 
 public class UsuarioInput {  
 	

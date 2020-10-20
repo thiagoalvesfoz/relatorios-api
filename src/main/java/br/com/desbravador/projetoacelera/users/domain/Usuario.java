@@ -1,19 +1,27 @@
-package br.com.desbravador.projetoacelera.model.entities;
+package br.com.desbravador.projetoacelera.users.domain;
 
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import br.com.desbravador.projetoacelera.web.Model;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Model{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;  
+	private Long id;  
 	
 	private String nome;
 	
@@ -29,18 +37,23 @@ public class Usuario {
 	
 	private String token;
 	
-	private Instant criado_em;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date criado_em;
 	
-	private Instant atualizado_em;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date atualizado_em;
 	
 	public Usuario() {
 		
 	}
 	
-	public Integer getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getNome() {
@@ -86,19 +99,19 @@ public class Usuario {
 		this.token = token;
 	}
 
-	public Instant getCriado_em() {
+	public Date getCriado_em() {
 		return criado_em;
 	}
 
-	public void setCriado_em(Instant criado_em) {
+	public void setCriado_em(Date criado_em) {
 		this.criado_em = criado_em;
 	}
 
-	public Instant getAtualizado_em() {
+	public Date getAtualizado_em() {
 		return atualizado_em;
 	}
 
-	public void setAtualizado_em(Instant atualizado_em) {
+	public void setAtualizado_em(Date atualizado_em) {
 		this.atualizado_em = atualizado_em;
 	}
 	
