@@ -1,5 +1,6 @@
 package br.com.desbravador.projetoacelera.users.dto;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -8,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.desbravador.projetoacelera.users.domain.Usuario;
 
 
-public class CredencialDTO implements UserDetails {
+public class CredencialDTO extends Usuario implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -16,13 +17,14 @@ public class CredencialDTO implements UserDetails {
 	private String password;
 	
 	public CredencialDTO(Usuario usuario) {
+		super(usuario);
 	    this.email = usuario.getEmail();
 	    this.password = usuario.getSenha();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return Arrays.asList(this);
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class CredencialDTO implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return !super.isBloqueado();
 	}
 
 	@Override
@@ -52,6 +54,6 @@ public class CredencialDTO implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return super.isAtivo();
 	}
 }
