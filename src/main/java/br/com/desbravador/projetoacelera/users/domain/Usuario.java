@@ -11,12 +11,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
 import br.com.desbravador.projetoacelera.web.Model;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Model{
+public class Usuario implements Model, GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -47,6 +48,16 @@ public class Usuario implements Model{
 	
 	public Usuario() {
 		
+	}
+	
+	public Usuario(Usuario usuario) {
+		this.nome = usuario.getNome();
+		this.email = usuario.getEmail();
+		this.senha = usuario.getSenha();
+		this.administrador = usuario.isAdministrador();
+		this.bloqueado = usuario.isBloqueado();
+		this.ativo = usuario.isAtivo();
+		this.token = usuario.token;
 	}
 	
 	@Override
@@ -113,6 +124,15 @@ public class Usuario implements Model{
 
 	public void setAtualizado_em(Date atualizado_em) {
 		this.atualizado_em = atualizado_em;
+	}
+
+	@Override
+	public String getAuthority() {
+		
+		if(this.administrador)
+			return "ADMIN";
+		
+		return "USER";
 	}
 	
 	

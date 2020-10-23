@@ -11,7 +11,7 @@ import br.com.desbravador.projetoacelera.users.domain.Usuario;
 import br.com.desbravador.projetoacelera.users.domain.repository.UsuarioRepository;
 
 @Service
-public class AuthService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -21,13 +21,13 @@ public class AuthService implements UserDetailsService {
 		System.out.println("email: " + email);
 		Usuario usuario = repository
 							.findByEmail(email)
-							.orElseThrow( () -> new UsernameNotFoundException("Login não encontrado.") );
+							.orElseThrow( () -> new UsernameNotFoundException("Usuario nao encontrado.") );
 		
 		return User
 				.builder()
-				.username(usuario.getNome())
+				.username(usuario.getEmail())
 				.password(usuario.getSenha())
-				.roles("USER")
+				.roles(usuario.getAuthority())
 				.build();
 	}
 

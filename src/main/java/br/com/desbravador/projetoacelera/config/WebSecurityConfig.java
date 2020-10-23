@@ -3,30 +3,32 @@ package br.com.desbravador.projetoacelera.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.desbravador.projetoacelera.users.service.AuthService;
+import br.com.desbravador.projetoacelera.users.service.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	private AuthService authService;
+	private UserDetailServiceImpl userDetailServiceImpl;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
-			.userDetailsService(authService)
+			.userDetailsService(userDetailServiceImpl)
 			.passwordEncoder(passwordEncoder());
-	}
+	}	
 	
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {
@@ -39,9 +41,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.csrf().disable()
 			.cors()
 			.and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //desabilita o controle de sessão (será controlado pelo token expire)
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
+		
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web
+			.ignoring()			
+			.antMatchers(HttpMethod.OPTIONS, "/**")
+			.antMatchers(HttpMethod.GET, "/public/**");
+			
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
