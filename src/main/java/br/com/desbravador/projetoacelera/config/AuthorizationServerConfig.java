@@ -52,8 +52,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 			.tokenStore(tokenStore())
 			.accessTokenConverter(accessTokenConverter())
-			.authenticationManager(authenticationManager)
-			.userDetailsService(authService);
+			.authenticationManager(authenticationManager);
+			
 	}
 	
 	@Override
@@ -69,13 +69,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.refreshTokenValiditySeconds(30);
 	}
 	
-	@Bean
-	@Primary
-	public DefaultTokenServices tokenServices() {
-		DefaultTokenServices tokenServices = new DefaultTokenServices();		
-		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setTokenStore(tokenStore);
-		return tokenServices;
-	}
-	
+		
 }
