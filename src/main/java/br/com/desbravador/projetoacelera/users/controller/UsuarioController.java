@@ -1,5 +1,4 @@
 package br.com.desbravador.projetoacelera.users.controller;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +17,7 @@ public class UsuarioController extends DefaultController<Usuario, UsuarioService
 
 	@Override
 	@PostMapping
-	public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
+	public Usuario save(@RequestBody Usuario usuario) {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		return super.save(usuario);
 	}

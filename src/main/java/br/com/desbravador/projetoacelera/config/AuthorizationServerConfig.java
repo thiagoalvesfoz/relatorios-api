@@ -31,10 +31,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
+
 			.tokenStore(tokenStore)
 			.authenticationManager(authenticationManager)
 			.userDetailsService(userDetailServiceImpl);
 	}	
+
 
 	
 	@Override
@@ -51,6 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.refreshTokenValiditySeconds(3600);
 	}
 	
+
 	@Bean
 	@Primary
 	public DefaultTokenServices tokenServices() {
@@ -60,4 +63,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		tokenServices.setTokenStore(tokenStore);
 		return tokenServices;
 	}
+
 }

@@ -24,6 +24,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 			.and().authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/usuarios").hasAnyRole("ADMIN")
+			.antMatchers("/api/consumidores").authenticated() 
+			.antMatchers("/api/dicionarios").authenticated() 
+			.antMatchers("/api/fontededados").authenticated() 
+			.antMatchers("/api/produtos").authenticated() 
+			.antMatchers("/api/relatorios").authenticated() 
 			.anyRequest().denyAll();	
 	}
 
