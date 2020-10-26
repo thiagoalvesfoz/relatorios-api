@@ -10,7 +10,7 @@ import br.com.desbravador.projetoacelera.web.Model;
 public class DefaultService<T extends Model, R extends JpaRepository<T, Long>>{
 
 	@Autowired
-	private R repository;
+	protected R repository;
 	
 	
 	public T save(T entity) {

@@ -1,19 +1,21 @@
 package br.com.desbravador.projetoacelera.users.dto.input;
 
-public class UsuarioInput {  
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import br.com.desbravador.projetoacelera.users.domain.Usuario;
+import br.com.desbravador.projetoacelera.web.DTO;
+
+public class UsuarioInput implements DTO<Usuario> {  
 	
 	private String nome;
 	
 	private String senha;
 	
 	private String email;
-	
-	private boolean administrador;
 		
 	private String token;
 
 	public UsuarioInput() {
-		
 	}
 	
 	public String getNome() {
@@ -32,14 +34,6 @@ public class UsuarioInput {
 		this.email = email;
 	}
 
-	public boolean isAdministrador() {
-		return administrador;
-	}
-
-	public void setAdministrador(boolean administrador) {
-		this.administrador = administrador;
-	}
-
 	public String getToken() {
 		return token;
 	}
@@ -54,6 +48,15 @@ public class UsuarioInput {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	@Override
+	public Usuario toEntity() {
+		Usuario user = new Usuario();
+		user.setNome(this.nome);
+		user.setEmail(this.email);
+		user.setSenha(new BCryptPasswordEncoder().encode(this.senha));
+		return user;
 	}
 
 	
