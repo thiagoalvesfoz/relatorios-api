@@ -1,10 +1,10 @@
 package br.com.desbravador.projetoacelera.users.dto;
 
-import java.time.Instant;
+import br.com.desbravador.projetoacelera.users.domain.Usuario;
 
 public class UsuarioDto {
 
-	private Integer id;  
+	private Long id;  
 	
 	private String nome;
 	
@@ -12,25 +12,22 @@ public class UsuarioDto {
 	
 	private boolean administrador;
 	
-	private boolean bloqueado;
+	private String authority;
+
 	
-	private boolean ativo;
-	
-	private String token;
-	
-	private Instant criado_em;
-	
-	private Instant atualizado_em;
-	
-	public UsuarioDto() {
-		
+	public UsuarioDto(Usuario usuario) {
+		this.nome = usuario.getNome();
+		this.id = usuario.getId();
+		this.email = usuario.getEmail();
+		this.administrador = usuario.isAdministrador();
+		this.authority = usuario.getAuthority();
 	}
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -58,45 +55,14 @@ public class UsuarioDto {
 		this.administrador = administrador;
 	}
 
-	public boolean isBloqueado() {
-		return bloqueado;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setBloqueado(boolean bloqueado) {
-		this.bloqueado = bloqueado;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Instant getCriado_em() {
-		return criado_em;
-	}
-
-	public void setCriado_em(Instant criado_em) {
-		this.criado_em = criado_em;
-	}
-
-	public Instant getAtualizado_em() {
-		return atualizado_em;
-	}
-
-	public void setAtualizado_em(Instant atualizado_em) {
-		this.atualizado_em = atualizado_em;
-	}
+	
 	
 	
 }
