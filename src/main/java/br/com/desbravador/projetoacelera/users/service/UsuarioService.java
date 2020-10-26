@@ -11,21 +11,16 @@ public class UsuarioService extends DefaultService<Usuario, UsuarioRepository>{
 
 	public Usuario update(Long id, Usuario inputUser) {
 		
-		Usuario user = findOne(id);
+		Usuario usuario = this.findOne(id);
 		
-		if(!inputUser.getNome().equals(user.getNome())) {
-			user.setNome(inputUser.getNome());
+		if (!usuario.getNome().equals(inputUser.getNome()) && inputUser.getNome() != null) {
+			usuario.setNome(inputUser.getNome());
+		}
+		if (usuario.isAdministrador() != inputUser.isAdministrador()) {
+			usuario.setAdministrador(inputUser.isAdministrador());
 		}
 		
-		if(!inputUser.getSenha().equals(user.getSenha())) {
-			user.setSenha(inputUser.getSenha());
-		}
-		
-		if(inputUser.isAdministrador() != user.isAdministrador()) {
-			user.setAdministrador(inputUser.isAdministrador());
-		}		
-		
-		return repository.saveAndFlush(user);
+		return this.repository.save(usuario);
 	}
 
 	@Override

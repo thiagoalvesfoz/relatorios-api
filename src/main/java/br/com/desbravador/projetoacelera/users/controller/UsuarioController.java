@@ -1,16 +1,18 @@
 package br.com.desbravador.projetoacelera.users.controller;
-import org.springframework.http.HttpStatus;
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desbravador.projetoacelera.users.domain.Usuario;
 import br.com.desbravador.projetoacelera.users.dto.UsuarioDto;
 import br.com.desbravador.projetoacelera.users.dto.input.UsuarioInput;
+import br.com.desbravador.projetoacelera.users.dto.input.UsuarioUpdate;
 import br.com.desbravador.projetoacelera.users.service.UsuarioService;
 import br.com.desbravador.projetoacelera.web.controller.DefaultController;
 
@@ -26,10 +28,10 @@ public class UsuarioController extends DefaultController<Usuario, UsuarioService
 		return dto;
 	}
 	
-	@PutMapping("/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public UsuarioDto update(@PathVariable Long id, @RequestBody Usuario inputUser) {
-		Usuario usuario = service.update(id, inputUser);		
-		return new UsuarioDto(usuario);
+	@PutMapping("{id}")
+	public ResponseEntity<Usuario> update(@PathVariable Long id,@Valid @RequestBody UsuarioUpdate body ) {
+		Usuario usuario = service.update(id, body.toEntity());
+		return ResponseEntity.ok().body(usuario);
+		
 	}
 }

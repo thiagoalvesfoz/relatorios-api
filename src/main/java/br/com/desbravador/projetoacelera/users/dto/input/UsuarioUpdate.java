@@ -1,21 +1,25 @@
 package br.com.desbravador.projetoacelera.users.dto.input;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.desbravador.projetoacelera.users.domain.Usuario;
 import br.com.desbravador.projetoacelera.web.DTO;
 
-public class UsuarioInput implements DTO<Usuario> {  
+public class UsuarioUpdate implements DTO<Usuario> {  
 	
+	@NotBlank
 	private String nome;
 	
+	@NotBlank
 	private String senha;
 	
-	private boolean administrador;
+	@NotNull
+	private Boolean administrador;
 	
-	private String email;
-
-	public UsuarioInput() {
+	public UsuarioUpdate() {
 	}
 	
 	public String getNome() {
@@ -26,14 +30,6 @@ public class UsuarioInput implements DTO<Usuario> {
 		this.nome = nome;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -42,11 +38,11 @@ public class UsuarioInput implements DTO<Usuario> {
 		this.senha = senha;
 	}
 	
-	public boolean isAdministrador() {
+	public Boolean isAdministrador() {
 		return administrador;
 	}
 
-	public void setAdministrador(boolean administrador) {
+	public void setAdministrador(Boolean administrador) {
 		this.administrador = administrador;
 	}
 
@@ -54,7 +50,6 @@ public class UsuarioInput implements DTO<Usuario> {
 	public Usuario toEntity() {
 		Usuario user = new Usuario();
 		user.setNome(this.nome);
-		user.setEmail(this.email);
 		user.setSenha(new BCryptPasswordEncoder().encode(this.senha));
 		user.setAdministrador(this.administrador);
 		return user;

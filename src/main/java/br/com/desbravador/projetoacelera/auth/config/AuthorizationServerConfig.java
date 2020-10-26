@@ -25,7 +25,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private final String SECRET_KEY = "@321";
 	
 	/* tempo de expiração dos tokens */
-	private final int ACCES_TOKEN_VALIDITY_SECONDS = 60;
+	private final int ACCES_TOKEN_VALIDITY_SECONDS = 60 * 60;
 	private final int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60;	
 	
 	private AuthenticationManager authenticationManager;
