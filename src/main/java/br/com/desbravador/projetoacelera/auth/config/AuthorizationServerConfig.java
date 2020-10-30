@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -32,6 +33,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private UserDetailServiceImpl userDetailServiceImpl;	
 	private TokenStore tokenStore;
 	
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		security.allowFormAuthenticationForClients();
+	}
+
+
 	@Autowired
 	public AuthorizationServerConfig(AuthenticationManager auth, UserDetailServiceImpl service) {
 		this.authenticationManager = auth;
