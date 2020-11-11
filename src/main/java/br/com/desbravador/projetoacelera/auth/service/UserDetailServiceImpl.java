@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.desbravador.projetoacelera.users.domain.Usuario;
 import br.com.desbravador.projetoacelera.users.domain.repository.UsuarioRepository;
+import br.com.desbravador.projetoacelera.users.dto.UsuarioDto;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -26,8 +27,16 @@ public class UserDetailServiceImpl implements UserDetailsService {
 				.builder()
 				.username(usuario.getEmail())
 				.password(usuario.getSenha())
-				.roles(usuario.getAuthority())
+				.roles(usuario.getAuthority())				
 				.build();
+	}
+	
+	
+	public UsuarioDto getUser(String email) {
+		
+		Usuario usuario = repository.findByEmail(email).get();
+		
+		return new UsuarioDto(usuario);
 	}
 
 }

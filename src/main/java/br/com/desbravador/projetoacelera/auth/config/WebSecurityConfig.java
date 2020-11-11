@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.cors()
 			.and()
 			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		;
 	}
 		
 
