@@ -15,6 +15,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.desbravador.projetoacelera.web.Model;
 
 @Entity
@@ -31,6 +33,7 @@ public class Usuario implements Model, GrantedAuthority {
 	@Column(unique = true)
 	private String email;
 	
+	@JsonIgnore
 	private String senha;
 	
 	private boolean administrador;
