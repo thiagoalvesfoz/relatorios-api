@@ -8,9 +8,7 @@ public class UsuarioDto {
 	
 	private String nome;
 	
-	private String email;
-	
-	private boolean administrador;
+	private String email;	
 	
 	private String authority;
 
@@ -19,7 +17,6 @@ public class UsuarioDto {
 		this.nome = usuario.getNome();
 		this.id = usuario.getId();
 		this.email = usuario.getEmail();
-		this.administrador = usuario.isAdministrador();
 		this.authority = usuario.getAuthority();
 	}
 	
@@ -47,14 +44,6 @@ public class UsuarioDto {
 		this.email = email;
 	}
 
-	public boolean isAdministrador() {
-		return administrador;
-	}
-
-	public void setAdministrador(boolean administrador) {
-		this.administrador = administrador;
-	}
-
 	public String getAuthority() {
 		return authority;
 	}
@@ -62,7 +51,5 @@ public class UsuarioDto {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
-	
-	
 	
 }
