@@ -7,36 +7,35 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.desbravador.projetoacelera.users.domain.Usuario;
-import br.com.desbravador.projetoacelera.users.domain.repository.UsuarioRepository;
-import br.com.desbravador.projetoacelera.users.dto.UsuarioDto;
+import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.users.dto.UserDto;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 	
 	@Autowired
-	private UsuarioRepository repository;
+	private UserRepository repository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Usuario usuario = repository
+		var usuario = repository
 			.findByEmail(email)
-			.orElseThrow( () -> new UsernameNotFoundException("Usuario nao encontrado.") );
+			.orElseThrow( () -> new UsernameNotFoundException("User not found.") );
 		
 		return User
 				.builder()
 				.username(usuario.getEmail())
-				.password(usuario.getSenha())
+				.password(usuario.getPassword())
 				.roles(usuario.getAuthority())				
 				.build();
 	}
 	
 	
-	public UsuarioDto getUser(String email) {
+	public UserDto getUser(String email) {
 		
-		Usuario usuario = repository.findByEmail(email).get();
+		var usuario = repository.findByEmail(email).get();
 		
-		return new UsuarioDto(usuario);
+		return new UserDto(usuario);
 	}
 
 }

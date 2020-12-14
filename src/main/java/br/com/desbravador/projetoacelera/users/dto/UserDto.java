@@ -1,20 +1,20 @@
 package br.com.desbravador.projetoacelera.users.dto;
 
-import br.com.desbravador.projetoacelera.users.domain.Usuario;
+import br.com.desbravador.projetoacelera.users.domain.User;
 
-public class UsuarioDto {
+public class UserDto {
 
 	private Long id;  
 	
-	private String nome;
+	private String name;
 	
 	private String email;	
 	
 	private String authority;
 
 	
-	public UsuarioDto(Usuario usuario) {
-		this.nome = usuario.getNome();
+	public UserDto(User usuario) {
+		this.name = usuario.getName();
 		this.id = usuario.getId();
 		this.email = usuario.getEmail();
 		this.authority = usuario.getAuthority();
@@ -28,12 +28,12 @@ public class UsuarioDto {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
