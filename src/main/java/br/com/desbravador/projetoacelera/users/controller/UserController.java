@@ -1,12 +1,14 @@
 package br.com.desbravador.projetoacelera.users.controller;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desbravador.projetoacelera.users.domain.User;
@@ -22,8 +24,9 @@ import br.com.desbravador.projetoacelera.web.controller.DefaultController;
 public class UserController extends DefaultController<User, UserService> {	
 
 	@PostMapping
-	public UserDto save(@RequestBody UserInput cadastro) {
-		User usuario = service.save(cadastro.toEntity());
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public UserDto save(@RequestBody @Valid UserInput newUser) {
+		User usuario = service.save(newUser.toEntity());
 		UserDto dto = new UserDto(usuario);
 		return dto;
 	}

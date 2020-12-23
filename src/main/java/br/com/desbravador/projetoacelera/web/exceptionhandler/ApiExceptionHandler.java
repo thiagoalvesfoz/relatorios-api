@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -54,6 +55,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<ResponseApi> resourceNotFound(ResourceNotFoundException ex, HttpServletRequest request){
 		
 		var status = HttpStatus.NOT_FOUND.value();
+		
+		var path = request.getRequestURI();
+		
+		var timestamp = Instant.now();
+		
+		var erro = new ResponseApi(status, timestamp, ex.getMessage(), path);
+		
+		return ResponseEntity.status(status).body(erro);
+	}
+	
+	@ExceptionHandler(BusinessRuleException.class)
+	public ResponseEntity<ResponseApi> businessRule(BusinessRuleException ex, HttpServletRequest request){
+		
+		var status = HttpStatus.UNPROCESSABLE_ENTITY.value();
 		
 		var path = request.getRequestURI();
 		

@@ -30,7 +30,6 @@ public class User implements Model, GrantedAuthority {
 	
 	private String name;
 	
-	@Column(unique = true)
 	private String email;
 	
 	@JsonIgnore
@@ -38,19 +37,21 @@ public class User implements Model, GrantedAuthority {
 	
 	private boolean admin;
 	
-	private boolean is_bloqued;
+	private boolean bloqued;
 	
-	private boolean is_active;
+	private boolean active;
 	
 	private String token;
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
 	
 	public User() {
 		
@@ -63,162 +64,92 @@ public class User implements Model, GrantedAuthority {
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.admin = user.isAdmin();
-		this.is_bloqued = user.isBloqued();
-		this.is_active = user.isActive();
+		this.bloqued = user.isBloqued();
+		this.active = user.isActive();
 		this.token = user.getToken();
-		this.created_at = user.getCreated_at();
-		this.updated_at = user.getUpdated_at();
+		this.createdAt = user.getCreatedAt();
+		this.updatedAt = user.getUpdatedAt();
 	}
-
-
-
 
 	public Long getId() {
 		return id;
 	}
 
-
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public boolean isAdmin() {
 		return admin;
 	}
 
-
-
-
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
 
-
-
-
 	public boolean isBloqued() {
-		return is_bloqued;
+		return bloqued;
 	}
 
-
-
-
-	public void setIsBloqued(boolean is_bloqued) {
-		this.is_bloqued = is_bloqued;
+	public void setBloqued(boolean bloqued) {
+		this.bloqued = bloqued;
 	}
-
-
-
 
 	public boolean isActive() {
-		return is_active;
+		return active;
 	}
 
-
-
-
-	public void setIsActive(boolean is_active) {
-		this.is_active = is_active;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
-
-
-
-	public String getToken() {
-		return token;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-
-
-
-	public void setToken(String token) {
-		this.token = token;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-
-
-
-	public Date getCreated_at() {
-		return created_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-
-
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-
-
-
-
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-
-
-
-
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
-
-
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
-
 
 	@Override
 	public String getAuthority() {
