@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title th:remove="all">Registrado com sucesso</title>
+</head>
+<body>
+    <div>
+        <h1>Registrado com sucesso!</h1>
+
+        <p>
+            Usuário: <span th:text="${user.name}"></span>
+        </p>
+        <p>
+            Email: <span th:text="${user.email}"></span>
+        </p>
+        <br>
+        <p>Você deve ativar sua conta antes para ter o acesso completo no sistema!</p>
+    </div>
+    <footer>
+        <p>Obrigado</p>
+        <p>Desbravador Team</p>
+    </footer>
+</body>
+</html>

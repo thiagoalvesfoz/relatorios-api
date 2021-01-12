@@ -48,7 +48,7 @@ public class UserService extends DefaultService<User, UserRepository>{
 		entity = super.save(entity);
 		
 		//Send  Email Confirmation
-		emailService.sendAccountRegistration(entity);
+		emailService.sendHtmlAccountRegistration(entity);
 		
 		return entity;
 	}
