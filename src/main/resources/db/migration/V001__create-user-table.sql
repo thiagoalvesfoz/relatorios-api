@@ -6,7 +6,7 @@ CREATE TABLE users (
     token VARCHAR(250),
     
     admin BOOLEAN DEFAULT false,
-    bloqued BOOLEAN DEFAULT false,
+    blocked BOOLEAN DEFAULT false,
     active BOOLEAN DEFAULT true,
     
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

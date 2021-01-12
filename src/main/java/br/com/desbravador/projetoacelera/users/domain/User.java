@@ -1,23 +1,12 @@
 package br.com.desbravador.projetoacelera.users.domain;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-
+import br.com.desbravador.projetoacelera.web.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import br.com.desbravador.projetoacelera.web.Model;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +26,7 @@ public class User implements Model, GrantedAuthority {
 	
 	private boolean admin;
 	
-	private boolean bloqued;
+	private boolean blocked;
 	
 	private boolean active;
 	
@@ -64,7 +53,7 @@ public class User implements Model, GrantedAuthority {
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.admin = user.isAdmin();
-		this.bloqued = user.isBloqued();
+		this.blocked = user.isBlocked();
 		this.active = user.isActive();
 		this.token = user.getToken();
 		this.createdAt = user.getCreatedAt();
@@ -119,12 +108,12 @@ public class User implements Model, GrantedAuthority {
 		this.admin = admin;
 	}
 
-	public boolean isBloqued() {
-		return bloqued;
+	public boolean isBlocked() {
+		return blocked;
 	}
 
-	public void setBloqued(boolean bloqued) {
-		this.bloqued = bloqued;
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 
 	public boolean isActive() {
