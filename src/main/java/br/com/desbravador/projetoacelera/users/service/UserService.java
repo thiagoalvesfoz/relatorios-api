@@ -42,7 +42,8 @@ public class UserService extends DefaultService<User, UserRepository>{
 		
 		entity = super.save(entity);
 		
-		//deve enviar um email para registrar sua senha
+		//Send  Email Confirmation
+		System.out.println(entity);
 		
 		return entity;
 	}

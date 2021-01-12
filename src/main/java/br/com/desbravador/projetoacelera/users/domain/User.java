@@ -148,6 +148,16 @@ public class User implements Model, GrantedAuthority {
 		
 		return "USER";
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("REGISTRADO COM SUCESSO!\n\n");
+		builder.append("Username: ");
+		builder.append(getName() + "\n");
+		builder.append("Email: ");
+		builder.append(getEmail() + "\n\n");
+		builder.append("Você deve ativar sua conta antes para ter o acesso completo no sistema!");
+		return builder.toString();
+	}
 }
