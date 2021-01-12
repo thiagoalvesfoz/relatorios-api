@@ -1,5 +1,7 @@
 package br.com.desbravador.projetoacelera.users.service;
 
+import br.com.desbravador.projetoacelera.email.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.desbravador.projetoacelera.users.domain.User;
@@ -10,6 +12,9 @@ import br.com.desbravador.projetoacelera.web.service.DefaultService;
 
 @Service
 public class UserService extends DefaultService<User, UserRepository>{
+
+	@Autowired
+	private EmailService emailService;
 
 	public User update(Long id, User inputUser) {
 		
@@ -43,7 +48,7 @@ public class UserService extends DefaultService<User, UserRepository>{
 		entity = super.save(entity);
 		
 		//Send  Email Confirmation
-		System.out.println(entity);
+		emailService.sendAccountRegistration(entity);
 		
 		return entity;
 	}
