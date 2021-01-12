@@ -64,7 +64,6 @@ public class UserInput implements DTO<User> {
 		user.setName(this.name);
 		user.setEmail(this.email);
 		user.setPassword(new BCryptPasswordEncoder().encode(this.password));
-		System.out.println(user.getPassword());
 		user.setAdmin(this.admin);
 		return user;
 	}

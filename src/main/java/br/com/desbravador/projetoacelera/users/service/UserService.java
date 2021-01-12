@@ -36,8 +36,8 @@ public class UserService extends DefaultService<User, UserRepository>{
 	@Override
 	public User save(User entity) {
 		
-		super.repository.findByEmail(entity.getEmail()).ifPresent( x -> {
-			throw new BusinessRuleException("E-mail already registered!");
+		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
+			throw new BusinessRuleException("E-mail already registered!"); 
 		});
 		
 		return super.save(entity);
