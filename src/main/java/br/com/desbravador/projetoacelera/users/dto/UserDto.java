@@ -13,11 +13,11 @@ public class UserDto {
 	private String authority;
 
 	
-	public UserDto(User usuario) {
-		this.name = usuario.getName();
-		this.id = usuario.getId();
-		this.email = usuario.getEmail();
-		this.authority = usuario.getAuthority();
+	public UserDto(User user) {
+		this.name = user.getName();
+		this.id = user.getId();
+		this.email = user.getEmail();
+		this.authority = user.getAuthority();
 	}
 	
 	public Long getId() {
