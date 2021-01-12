@@ -1,8 +1,12 @@
 package br.com.desbravador.projetoacelera.auth.config;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -16,6 +20,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+	
+	@Autowired
+	private Environment env;
 	
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -45,14 +52,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 	
 	@Override
-	public void configure(HttpSecurity http) throws Exception {		
+	public void configure(HttpSecurity http) throws Exception {
+		
+		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
+			http
+				.authorizeRequests()
+					.antMatchers("/h2-console/**").permitAll()
+				.and().headers()
+					.frameOptions().disable();
+		}
+		
 		http.logout()
 			.invalidateHttpSession(true)
 			.clearAuthentication(true)
 			.and().authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/usuarios/**").hasAnyRole("ADMIN")
-			.antMatchers(HttpMethod.PUT, "/api/usuarios/*").hasAnyRole("ADMIN")
+			.antMatchers(HttpMethod.POST, "/api/users").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("ADMIN")
+			.antMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("ADMIN")
 			.antMatchers("/api/consumidores").authenticated() 
 			.antMatchers("/api/dicionarios").authenticated() 
 			.antMatchers("/api/fontededados").authenticated() 

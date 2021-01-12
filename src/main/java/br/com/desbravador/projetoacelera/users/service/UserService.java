@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import br.com.desbravador.projetoacelera.web.service.DefaultService;
 
@@ -17,6 +18,7 @@ public class UserService extends DefaultService<User, UserRepository>{
 		if (!usuario.getName().equals(inputUser.getName()) && inputUser.getName() != null) {
 			usuario.setName(inputUser.getName());
 		}
+		
 		if (usuario.isAdmin() != inputUser.isAdmin()) {
 			usuario.setAdmin(inputUser.isAdmin());
 		}
@@ -29,6 +31,22 @@ public class UserService extends DefaultService<User, UserRepository>{
 		return repository
 				.findById(id)
 				.orElseThrow( () -> new ResourceNotFoundException("User not found!") );
-	}	
+	}
+
+	@Override
+	public User save(User entity) {
+		
+		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
+			throw new BusinessRuleException("E-mail already registered!"); 
+		});	
+		
+		entity = super.save(entity);
+		
+		//deve enviar um email para registrar sua senha
+		
+		return entity;
+	}
+	
+	
 	
 }
