@@ -38,9 +38,13 @@ public class UserService extends DefaultService<User, UserRepository>{
 		
 		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
 			throw new BusinessRuleException("E-mail already registered!"); 
-		});
+		});	
 		
-		return super.save(entity);
+		entity = super.save(entity);
+		
+		//deve enviar um email para registrar sua senha
+		
+		return entity;
 	}
 	
 	

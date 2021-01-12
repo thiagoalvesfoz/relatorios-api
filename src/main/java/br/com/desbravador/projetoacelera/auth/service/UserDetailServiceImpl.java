@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.users.dto.UserDto;
+import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -21,13 +22,17 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		var usuario = repository
 			.findByEmail(email)
 			.orElseThrow( () -> new UsernameNotFoundException("User not found.") );
+	
+		if (!usuario.isActive()) {
+			throw new BusinessRuleException("User is inactive");
+		}
 		
 		return User
 				.builder()
 				.username(usuario.getEmail())
 				.password(usuario.getPassword())
 				.roles(usuario.getAuthority())	
-				.disabled(usuario.isActive())
+				.disabled(!usuario.isActive())
 				.build();
 	}
 	
