@@ -14,20 +14,35 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+
 public abstract class AbstractEmailService implements EmailService {
 
-    @Value("${default.sender}")
+    @Value("${email.default.sender}")
     private String sender;
+
+    @Value("${email.default.senderName}")
+    private String senderName;
 
     @Autowired
     private TemplateEngine templateEngine;
+
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendAccountRegistration(User user) {
+    public final void sendAccountRegistration(User user) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromUser(user);
         sendEmail(sm);
+    }
+
+    @Override
+    public final void sendHtmlAccountRegistration(User user) {
+        try {
+            MimeMessage mm = prepareMimeMessageFromUser(user);
+            sendHtmlEmail(mm);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            sendAccountRegistration(user);
+        }
     }
 
     protected SimpleMailMessage prepareSimpleMailMessageFromUser(User user) {
@@ -40,21 +55,11 @@ public abstract class AbstractEmailService implements EmailService {
         return sm;
     }
 
-    @Override
-    public void sendHtmlAccountRegistration(User user) {
-        try {
-            MimeMessage mm = prepareMimeMessageFromUser(user);
-            sendHtmlEmail(mm);
-        } catch (MessagingException | UnsupportedEncodingException ex) {
-          sendAccountRegistration(user);
-        }
-    }
-
     protected MimeMessage prepareMimeMessageFromUser(User user) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
         mmh.setTo(user.getEmail());
-        mmh.setFrom(sender, "Desbravador Software");
+        mmh.setFrom(sender, senderName);
         mmh.setSubject("Please verify your registration");
         mmh.setSentDate(new Date(System.currentTimeMillis()));
         mmh.setText(htmlFromTemplateRegistration(user), true);

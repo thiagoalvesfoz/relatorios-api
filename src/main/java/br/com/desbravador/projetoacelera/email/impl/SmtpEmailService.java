@@ -7,30 +7,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 
+@Service
 public class SmtpEmailService extends AbstractEmailService {
-
-    @Autowired
-    private MailSender mailSender;
-
-    @Autowired
-    private JavaMailSender javaMailSender;
 
     private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
 
+    private final MailSender mailSender;
+    private final JavaMailSender javaMailSender;
+
+    @Autowired
+    public SmtpEmailService(MailSender mailSender, JavaMailSender javaMailSender) {
+        this.mailSender = mailSender;
+        this.javaMailSender = javaMailSender;
+    }
+
     @Override
     public void sendEmail(SimpleMailMessage msg) {
-        LOG.info("Email sending...");
+        LOG.info("Sending email...");
         mailSender.send(msg);
-        LOG.info("Email sent!");
+        LOG.info("Email successfully sent!");
     }
 
     @Override
     public void sendHtmlEmail(MimeMessage msg) {
-        LOG.info("Email sending...");
+        LOG.info("Sending HTML email...");
         javaMailSender.send(msg);
-        LOG.info("Email sent!");
+        LOG.info("Email successfully sent!");
     }
 }

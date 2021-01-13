@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "email.default.sender",
+      "type": "java.lang.String",
+      "description": "Sets the default sender for sending emails."
+    },
+    {
+      "name": "email.default.senderName",
+      "type": "java.lang.String",
+      "description": "Sets the default sender name for sending emails."
+    }
+  ] }
