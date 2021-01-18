@@ -44,7 +44,7 @@ public class CredencialDTO extends User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return !super.isBloqued();
+		return !super.isBlocked();
 	}
 
 	@Override

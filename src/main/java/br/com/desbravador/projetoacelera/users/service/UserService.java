@@ -1,32 +1,39 @@
 package br.com.desbravador.projetoacelera.users.service;
 
-import org.springframework.stereotype.Service;
-
+import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import br.com.desbravador.projetoacelera.web.service.DefaultService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService extends DefaultService<User, UserRepository>{
 
+	@Autowired
+	private EmailService emailService;
+
+	@Transactional
 	public User update(Long id, User inputUser) {
 		
-		User usuario = this.findOne(id);
+		User user = this.findOne(id);
 		
-		if (!usuario.getName().equals(inputUser.getName()) && inputUser.getName() != null) {
-			usuario.setName(inputUser.getName());
+		if (!user.getName().equals(inputUser.getName()) && inputUser.getName() != null) {
+			user.setName(inputUser.getName());
 		}
 		
-		if (usuario.isAdmin() != inputUser.isAdmin()) {
-			usuario.setAdmin(inputUser.isAdmin());
+		if (user.isAdmin() != inputUser.isAdmin()) {
+			user.setAdmin(inputUser.isAdmin());
 		}
 		
-		return this.repository.save(usuario);
+		return super.repository.save(user);
 	}
 
 	@Override
+	@Transactional
 	public User findOne(Long id) {
 		return repository
 				.findById(id)
@@ -34,6 +41,7 @@ public class UserService extends DefaultService<User, UserRepository>{
 	}
 
 	@Override
+	@Transactional
 	public User save(User entity) {
 		
 		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
@@ -42,11 +50,10 @@ public class UserService extends DefaultService<User, UserRepository>{
 		
 		entity = super.save(entity);
 		
-		//deve enviar um email para registrar sua senha
+		//Send  Email
+		emailService.sendHtmlAccountRegistration(entity);
 		
 		return entity;
 	}
-	
-	
-	
+
 }
