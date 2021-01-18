@@ -24,6 +24,7 @@ public class UserController extends DefaultController<User, UserService> {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public UserDto save(@RequestBody @Valid UserInput newUser) {
+		newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 		User user = service.save(newUser.toEntity());
 		return new UserDto(user);
 	}
