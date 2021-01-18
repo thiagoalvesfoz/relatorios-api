@@ -1,12 +1,10 @@
 package br.com.desbravador.projetoacelera.users.dto.input;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.web.DTO;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public class UserInput implements DTO<User> {  
 	
@@ -63,7 +61,7 @@ public class UserInput implements DTO<User> {
 		User user = new User();
 		user.setName(this.name);
 		user.setEmail(this.email);
-		user.setPassword(new BCryptPasswordEncoder().encode(this.password));
+		user.setPassword(this.password);
 		user.setAdmin(this.admin);
 		return user;
 	}
