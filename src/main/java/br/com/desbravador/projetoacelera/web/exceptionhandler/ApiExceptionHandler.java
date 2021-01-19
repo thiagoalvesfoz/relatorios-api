@@ -1,10 +1,8 @@
 package br.com.desbravador.projetoacelera.web.exceptionhandler;
 
-import java.time.Instant;
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
+import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
+import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
-import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.util.ArrayList;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -77,5 +76,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		var erro = new ResponseApi(status, timestamp, ex.getMessage(), path);
 		
 		return ResponseEntity.status(status).body(erro);
+	}
+
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<ResponseApi> authorization(AuthorizationException ex, HttpServletRequest request){
+
+		var status = HttpStatus.FORBIDDEN.value();
+
+		var path = request.getRequestURI();
+
+		var timestamp = Instant.now();
+
+		var err = new ResponseApi(status, timestamp, ex.getMessage(), path);
+
+		return ResponseEntity.status(status).body(err);
 	}
 }
