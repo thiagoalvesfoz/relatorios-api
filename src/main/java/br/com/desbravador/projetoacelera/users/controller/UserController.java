@@ -8,6 +8,7 @@ import br.com.desbravador.projetoacelera.web.controller.DefaultController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,18 @@ public class UserController extends DefaultController<User, UserService> {
 		User user = service.save(newUser.toEntity());
 		return new UserDto(user);
 	}
-	
+
 	@PutMapping("{id}")
 	public ResponseEntity<User> update(@PathVariable Long id,@Valid @RequestBody UserUpdate body ) {
 		body.setPassword(passwordEncoder.encode(body.getPassword()));
 		User user = service.update(id, body.toEntity());
 		return ResponseEntity.ok().body(user);
-		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@GetMapping("{id}")
+	public ResponseEntity<User> getOne(@PathVariable Long id) {
+		return super.getOne(id);
 	}
 }

@@ -142,11 +142,10 @@ public class User implements Model, GrantedAuthority {
 
 	@Override
 	public String getAuthority() {
-		
 		if(this.admin)
-			return "ADMIN";
+			return "ROLE_ADMIN";
 		
-		return "USER";
+		return "ROLE_USER";
 	}
 
 	@Override

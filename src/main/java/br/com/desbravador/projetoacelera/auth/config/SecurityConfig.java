@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,16 +24,19 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
+    private final UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private JWTUtil jwtUtil;
+    public SecurityConfig(Environment env, UserDetailsService userDetailsService, JWTUtil jwtUtil) {
+        this.env = env;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+    }
 
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",
@@ -41,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/api/users"
     };
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
