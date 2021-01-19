@@ -71,4 +71,48 @@ public abstract class AbstractEmailService implements EmailService {
         context.setVariable("user", user);
         return templateEngine.process("email/registration", context);
     }
+
+    @Override
+    public void sendNewPasswordEmail(User user, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(user, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(User user, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(user.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("New password request");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("New password: " + newPass);
+        return sm;
+    }
+
+    @Override
+    public final void sendHtmlNewPasswordEmail(User user, String newPass) {
+        try {
+            MimeMessage mm = prepareMimeMessageFromNewRequestPassword(user, newPass);
+            sendHtmlEmail(mm);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            sendNewPasswordEmail(user, newPass);
+        }
+    }
+
+    protected MimeMessage prepareMimeMessageFromNewRequestPassword(User user, String newPass) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+        mmh.setTo(user.getEmail());
+        mmh.setFrom(sender, senderName);
+        mmh.setSubject("New password request");
+        mmh.setSentDate(new Date(System.currentTimeMillis()));
+        mmh.setText(htmlFromTemplateRequestNewPassword(user, newPass), true);
+        return mimeMessage;
+    }
+
+    protected String htmlFromTemplateRequestNewPassword(User user, String newPass) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        context.setVariable("newPass", newPass);
+        return templateEngine.process("email/forgotPassword", context);
+    }
 }
