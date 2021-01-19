@@ -50,20 +50,24 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+
+
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
             response.setStatus(401);
             response.setContentType("application/json");
-            response.getWriter().append(json());
+            response.getWriter().append(json(exception.getMessage()));
         }
 
-        private String json() {
+
+
+        private String json(String message) {
             long date = new Date().getTime();
             return "{\"timestamp\": " + date + ", "
                     + "\"status\": 401, "
                     + "\"error\": \"Not authorized\", "
-                    + "\"message\": \"Invalid email or password\", "
+                    + "\"message\": \"" + message +  "\", "
                     + "\"path\": \"/login\"}";
         }
     }

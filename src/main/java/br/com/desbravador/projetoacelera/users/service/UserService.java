@@ -65,7 +65,8 @@ public class UserService extends DefaultService<User, UserRepository>{
 		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
 			throw new BusinessRuleException("E-mail already registered!"); 
 		});	
-		
+
+		entity.setActive(true);
 		entity = super.save(entity);
 		
 		//Send  Email
