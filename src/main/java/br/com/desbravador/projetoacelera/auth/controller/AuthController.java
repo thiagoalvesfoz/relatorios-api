@@ -6,6 +6,7 @@ import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.config.Utility;
 import br.com.desbravador.projetoacelera.email.EmailService;
+import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,22 +41,16 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/forgot")
-    public ResponseEntity<Void> forgot(@RequestBody @Valid ForgotPasswordDTO dto) {
-        service.sendNewPassword(dto.getEmail());
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping("/forgot_password")
-    public ResponseEntity<Void> processForgotPassword(@RequestBody @Valid ForgotPasswordDTO dto, HttpServletRequest request) {
+    public ResponseEntity<Void> forgotPassword(@RequestBody @Valid ForgotPasswordDTO dto, HttpServletRequest request) {
 
         String email = dto.getEmail();
         String token = RandomString.make(30);
 
-        service.updateResetPasswordToken(token, email);
+        User user = service.updateResetPasswordToken(token, email);
 
         String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
-        emailService.sendHtmlResetPasswordEmail(email, resetPasswordLink);
+        emailService.sendHtmlResetPasswordEmail(user, resetPasswordLink);
 
         return ResponseEntity.noContent().build();
     }

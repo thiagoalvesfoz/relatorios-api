@@ -1,23 +1,18 @@
 package br.com.desbravador.projetoacelera.users.service;
 
 import br.com.desbravador.projetoacelera.auth.UserSecurity;
-import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import br.com.desbravador.projetoacelera.web.service.DefaultService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService extends DefaultService<User, UserRepository>{
-
-	@Autowired
-	private EmailService emailService;
 
 	public static UserSecurity authenticated() {
 		try {
@@ -64,13 +59,9 @@ public class UserService extends DefaultService<User, UserRepository>{
 		
 		super.repository.findByEmail(entity.getEmail()).ifPresent( function -> { 
 			throw new BusinessRuleException("E-mail already registered!"); 
-		});	
+		});
 
-		entity.setActive(true);
 		entity = super.save(entity);
-		
-		//Send  Email
-		emailService.sendHtmlAccountRegistration(entity);
 		
 		return entity;
 	}

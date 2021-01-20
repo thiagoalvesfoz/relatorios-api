@@ -3,12 +3,12 @@ package br.com.desbravador.projetoacelera.auth.controller;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +20,7 @@ public class ResetPasswordController {
     private AuthService service;
 
     @GetMapping
-    public String renderHelloWorld(@Param(value = "token") String token, Model model) {
+    public String renderFormResetPassword(@RequestParam(value = "token") String token, Model model) {
         User user = service.getUserByToken(token);
         model.addAttribute("token", token);
 
@@ -45,6 +45,7 @@ public class ResetPasswordController {
             return "message";
         }
 
+        user.setActive(true);
         service.updatePassword(user, password);
         model.addAttribute("message", "You have successfully changed your password.");
         return "message";
