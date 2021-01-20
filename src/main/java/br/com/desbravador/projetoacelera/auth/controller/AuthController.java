@@ -4,7 +4,10 @@ import br.com.desbravador.projetoacelera.auth.ForgotPasswordDTO;
 import br.com.desbravador.projetoacelera.auth.JWTUtil;
 import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
+import br.com.desbravador.projetoacelera.config.Utility;
+import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.service.UserService;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -25,6 +29,9 @@ public class AuthController {
     @Autowired
     private AuthService service;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/refresh_token")
     public ResponseEntity<Void> refreshToken(HttpServletResponse res) {
         UserSecurity user = UserService.authenticated();
@@ -36,6 +43,20 @@ public class AuthController {
     @PostMapping("/forgot")
     public ResponseEntity<Void> forgot(@RequestBody @Valid ForgotPasswordDTO dto) {
         service.sendNewPassword(dto.getEmail());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/forgot_password")
+    public ResponseEntity<Void> processForgotPassword(@RequestBody @Valid ForgotPasswordDTO dto, HttpServletRequest request) {
+
+        String email = dto.getEmail();
+        String token = RandomString.make(30);
+
+        service.updateResetPasswordToken(token, email);
+
+        String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
+        emailService.sendHtmlResetPasswordEmail(email, resetPasswordLink);
+
         return ResponseEntity.noContent().build();
     }
 

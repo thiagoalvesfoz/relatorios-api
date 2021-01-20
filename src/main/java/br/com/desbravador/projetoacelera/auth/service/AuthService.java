@@ -59,4 +59,22 @@ public class AuthService {
         }
     }
 
+    public void updateResetPasswordToken(String token, String email) {
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find any user with the email " + email));
+
+        user.setToken(token);
+        userRepository.save(user);
+    }
+
+    public User getUserByToken(String token) {
+        return userRepository.findByToken(token);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        user.setToken(null);
+        User saved = userRepository.save(user);
+    }
 }

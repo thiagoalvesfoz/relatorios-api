@@ -115,4 +115,60 @@ public abstract class AbstractEmailService implements EmailService {
         context.setVariable("newPass", newPass);
         return templateEngine.process("email/forgotPassword", context);
     }
+
+    //    RESET PASSWORD EMAIL
+    @Override
+    public void sendResetPasswordEmail(String recipientEmail, String link) {
+        SimpleMailMessage sm = prepareResetPasswordEmail(recipientEmail, link);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareResetPasswordEmail(String recipientEmail, String link) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(recipientEmail);
+        sm.setFrom(sender);
+        sm.setSubject("Here's the link to reset your password");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+
+        String content = "Hello, \n"
+                + "You have requested to reset your password.\n"
+                + "Click the link below to change your password: "
+                + link
+                + "\n"
+                + "Ignore this email if you do remember your password, \n"
+                + "or you have not made the request.";
+
+        sm.setText(content);
+        return sm;
+    }
+
+    @Override
+    public final void sendHtmlResetPasswordEmail(String recipientEmail, String link) {
+        try {
+            MimeMessage mm = prepareMimeMessageFromResetPassword(recipientEmail, link);
+            sendHtmlEmail(mm);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            sendResetPasswordEmail(recipientEmail, link);
+        }
+    }
+
+    protected MimeMessage prepareMimeMessageFromResetPassword(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+        mmh.setTo(recipientEmail);
+        mmh.setFrom(sender, senderName);
+        mmh.setSubject("Here's the link to reset your password");
+        mmh.setSentDate(new Date(System.currentTimeMillis()));
+
+        String content = "<p>Hello,</p>"
+                + "<p>You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
+                + "<p><a href=\"" + link + "\">Change my password</a></p>"
+                + "<br>"
+                + "<p>Ignore this email if you do remember your password, "
+                + "or you have not made the request.</p>";
+
+        mmh.setText(content, true);
+        return mimeMessage;
+    }
 }

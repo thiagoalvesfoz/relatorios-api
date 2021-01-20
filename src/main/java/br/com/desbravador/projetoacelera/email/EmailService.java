@@ -15,4 +15,7 @@ public interface EmailService {
 
     void sendNewPasswordEmail(User user, String newPass);
     void sendHtmlNewPasswordEmail(User user, String newPass);
+
+    void sendResetPasswordEmail(String recipientEmail, String link);
+    void sendHtmlResetPasswordEmail(String recipientEmail, String link);
 }
