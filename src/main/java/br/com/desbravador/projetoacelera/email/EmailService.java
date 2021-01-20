@@ -7,10 +7,12 @@ import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
 
-    void sendAccountRegistration(User user);
+    void sendAccountRegistration(User account, String setPasswordLink);
     void sendEmail(SimpleMailMessage msg);
 
-    void sendHtmlAccountRegistration(User user);
+    void sendHtmlAccountRegistration(User account, String setPasswordLink);
     void sendHtmlEmail(MimeMessage msg);
 
+    void sendResetPasswordEmail(User user, String link);
+    void sendHtmlResetPasswordEmail(User user, String link);
 }

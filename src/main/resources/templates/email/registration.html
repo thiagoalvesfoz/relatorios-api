@@ -1,25 +1,88 @@
-<!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title th:remove="all">Registrado com sucesso</title>
-</head>
-<body>
-    <div>
-        <h1>Registrado com sucesso!</h1>
+    <title>Activate your account</title>
 
-        <p>
-            Usuário: <span th:text="${user.name}"></span>
-        </p>
-        <p>
-            Email: <span th:text="${user.email}"></span>
-        </p>
-        <br>
-        <p>Você deve ativar sua conta antes para ter o acesso completo no sistema!</p>
-    </div>
-    <footer>
-        <p>Obrigado</p>
-        <p>Desbravador Team</p>
-    </footer>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+        }
+        .header {
+            padding: 40px 0 30px 0;
+            width: 500px;
+            text-align: center;
+            color: #3a3a3a;
+            background-color: #017bc4;
+        }
+        .content {
+            padding: 40px 30px 40px 30px;
+            background-color: #fbfbfb;
+            color: #3a3a3a;
+            width: 500px;
+        }
+        .footer {
+            padding: 20px 30px;
+            background-color: rgb(64 64 64) !important;
+            border-top: 1px solid #606467;
+            width: 500px;
+        }
+        a {
+            color: #017bc4;
+            background-color: #fff;
+            border: 2px solid #017bc4;
+            border-radius: 20px;
+            width: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 8px 40px;
+        }
+        .btn {
+            padding: 50px 0 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+
+<table align="center" border="0" cellpadding="0" cellspacing="0"  style="border-collapse: collapse;">
+    <tr>
+        <td class="header">
+            <h1>Desbravador</h1>
+        </td>
+    </tr>
+    <tr>
+        <td class="content" >
+            <h2 style="font-weight: 500; margin-bottom: 30px;">Activate your account</h2>
+
+            <p th:text="${'Hi ' + user.getName() + ','}"></p>
+
+            <p style="margin: 0">
+                We've created an account for you and it's almost ready. We just need you to activating your account using the link below.
+            </p>
+            <div class="btn">
+                <a th:href="${setPasswordLink}">Activate Your Account</a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="footer">
+            <p>Thanks,<br/>Team Desbravador</p>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>

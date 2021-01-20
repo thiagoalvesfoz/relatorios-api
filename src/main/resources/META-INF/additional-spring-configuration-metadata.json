@@ -9,5 +9,15 @@
       "name": "email.default.senderName",
       "type": "java.lang.String",
       "description": "Sets the default sender name for sending emails."
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Define the secret word for jwt."
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Sets the expiration time."
     }
   ] }
