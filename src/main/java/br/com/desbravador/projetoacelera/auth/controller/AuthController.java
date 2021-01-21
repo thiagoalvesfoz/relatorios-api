@@ -7,7 +7,6 @@ import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.config.Utility;
 import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class AuthController {
 
     @PostMapping("/refresh_token")
     public ResponseEntity<Void> refreshToken(HttpServletResponse res) {
-        UserSecurity user = UserService.authenticated();
+        UserSecurity user = AuthService.authenticated();
         String token = jwtUtil.generateToken(user.getUsername());
         res.addHeader("Authorization", "Bearer " + token);
         return ResponseEntity.noContent().build();

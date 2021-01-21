@@ -126,15 +126,6 @@ public abstract class AbstractEmailService implements EmailService {
         mmh.setFrom(sender, senderName);
         mmh.setSubject("Here's the link to reset your password");
         mmh.setSentDate(new Date(System.currentTimeMillis()));
-
-//        String content = "<p>Hello,</p>"
-//                + "<p>You have requested to reset your password.</p>"
-//                + "<p>Click the link below to change your password:</p>"
-//                + "<p><a href=\"" + link + "\">Change my password</a></p>"
-//                + "<br>"
-//                + "<p>Ignore this email if you do remember your password, "
-//                + "or you have not made the request.</p>";
-
         mmh.setText(htmlFromTemplateResetPassword(user, link), true);
         return mimeMessage;
     }
