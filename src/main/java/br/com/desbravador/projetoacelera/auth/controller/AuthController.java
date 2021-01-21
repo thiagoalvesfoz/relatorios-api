@@ -7,6 +7,7 @@ import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.config.Utility;
 import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
+import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,11 +35,19 @@ public class AuthController {
     private EmailService emailService;
 
     @PostMapping("/refresh_token")
-    public ResponseEntity<Void> refreshToken(HttpServletResponse res) {
+    public ResponseEntity<Map<String, String>> refreshToken() {
+
         UserSecurity user = AuthService.authenticated();
-        String token = jwtUtil.generateToken(user);
-        res.addHeader("Authorization", "Bearer " + token);
-        return ResponseEntity.noContent().build();
+
+        if (user == null) {
+            throw new ResourceNotFoundException("Ops, user not found!");
+        }
+
+        String tokenJWT = jwtUtil.generateToken(user);
+        HashMap<String, String> json = new HashMap<>();
+        json.put("token", tokenJWT);
+
+        return ResponseEntity.ok().body(json);
     }
 
     @PostMapping("/forgot_password")
