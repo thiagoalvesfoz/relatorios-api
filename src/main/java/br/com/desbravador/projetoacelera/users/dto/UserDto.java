@@ -2,7 +2,10 @@ package br.com.desbravador.projetoacelera.users.dto;
 
 import br.com.desbravador.projetoacelera.users.domain.User;
 
-public class UserDto {
+import java.io.Serializable;
+
+public class UserDto implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private Long id;  
 	

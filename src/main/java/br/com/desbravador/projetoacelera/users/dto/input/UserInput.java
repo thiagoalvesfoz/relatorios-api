@@ -10,16 +10,12 @@ public class UserInput implements DTO<User> {
 	
 	@NotBlank
 	private String name;
-	
+
 	@Email
 	@NotBlank
 	private String email;
 	
-	@NotBlank
-	private String password;
-	
 	private boolean admin;
-	
 
 	public UserInput() {
 	}
@@ -40,14 +36,6 @@ public class UserInput implements DTO<User> {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public boolean isAdmin() {
 		return admin;
 	}
@@ -61,7 +49,6 @@ public class UserInput implements DTO<User> {
 		User user = new User();
 		user.setName(this.name);
 		user.setEmail(this.email);
-		user.setPassword(this.password);
 		user.setAdmin(this.admin);
 		return user;
 	}

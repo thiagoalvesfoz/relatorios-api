@@ -1,4 +1,5 @@
 package br.com.desbravador.projetoacelera.users.controller;
+
 import br.com.desbravador.projetoacelera.config.Utility;
 import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
@@ -6,32 +7,52 @@ import br.com.desbravador.projetoacelera.users.dto.UserDto;
 import br.com.desbravador.projetoacelera.users.dto.input.UserInput;
 import br.com.desbravador.projetoacelera.users.dto.input.UserUpdate;
 import br.com.desbravador.projetoacelera.users.service.UserService;
-import br.com.desbravador.projetoacelera.web.controller.DefaultController;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("api/users")
-public class UserController extends DefaultController<User, UserService> {
+public class UserController {
+
+	private final UserService service;
+	private final EmailService emailService;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	public UserController(BCryptPasswordEncoder passwordEncoder, EmailService emailService, UserService service) {
+		this.passwordEncoder = passwordEncoder;
+		this.emailService = emailService;
+		this.service = service;
+	}
 
-	@Autowired
-	private EmailService emailService;
+	@GetMapping
+	public ResponseEntity<List<UserDto>> findAll() {
+		var users = service.findAll().stream().map(UserDto::new).collect(Collectors.toList());
+		return ResponseEntity.ok().body(users);
+	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@GetMapping("{id}")
+	public ResponseEntity<UserDto> getOne(@PathVariable Long id) {
+		var result = new UserDto(service.findOne(id));
+		return ResponseEntity.ok().body(result);
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public UserDto save(@RequestBody @Valid UserInput newUser, HttpServletRequest request) {
+	public ResponseEntity<UserDto> createNewAccount(@RequestBody @Valid UserInput newUser, HttpServletRequest request) {
 		User accountUser = newUser.toEntity();
 		String token = RandomString.make(30);
 
@@ -41,20 +62,16 @@ public class UserController extends DefaultController<User, UserService> {
 		String setPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
 		emailService.sendHtmlAccountRegistration(accountUser, setPasswordLink);
 
-		return new UserDto(accountUser);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(accountUser.getId()).toUri();
+		return ResponseEntity.created(uri).body(new UserDto(accountUser));
+
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<User> update(@PathVariable Long id,@Valid @RequestBody UserUpdate body ) {
+	public ResponseEntity<UserDto> updateAccountInformation(@PathVariable Long id,@Valid @RequestBody UserUpdate body ) {
 		body.setPassword(passwordEncoder.encode(body.getPassword()));
-		User user = service.update(id, body.toEntity());
-		return ResponseEntity.ok().body(user);
+		var user = service.update(id, body.toEntity());
+		return ResponseEntity.ok().body(new UserDto(user));
 	}
 
-	@Override
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("{id}")
-	public ResponseEntity<User> getOne(@PathVariable Long id) {
-		return super.getOne(id);
-	}
 }

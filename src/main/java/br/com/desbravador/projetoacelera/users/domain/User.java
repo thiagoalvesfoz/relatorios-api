@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
 @Table(name = "users")
@@ -33,14 +33,11 @@ public class User implements Model, GrantedAuthority {
 	private String token;
 	
 	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date createdAt;
-	
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
+	private Instant createdAt;
+
 	@Column(name = "updated_at")
-	private Date updatedAt;
+	private Instant updatedAt;
 	
 	public User() {
 		
@@ -124,19 +121,19 @@ public class User implements Model, GrantedAuthority {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -158,5 +155,9 @@ public class User implements Model, GrantedAuthority {
 		builder.append(getEmail()).append("\n\n");
 		builder.append("Você deve ativar sua conta antes para ter o acesso completo no sistema!");
 		return builder.toString();
+	}
+
+	public void updatePassword() {
+
 	}
 }
