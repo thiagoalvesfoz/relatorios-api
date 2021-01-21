@@ -3,6 +3,7 @@ package br.com.desbravador.projetoacelera.auth.config;
 import br.com.desbravador.projetoacelera.auth.JWTAuthenticationFilter;
 import br.com.desbravador.projetoacelera.auth.JWTAuthorizationFilter;
 import br.com.desbravador.projetoacelera.auth.JWTUtil;
+import br.com.desbravador.projetoacelera.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,11 +28,11 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final Environment env;
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JWTUtil jwtUtil;
 
     @Autowired
-    public SecurityConfig(Environment env, UserDetailsService userDetailsService, JWTUtil jwtUtil) {
+    public SecurityConfig(Environment env, UserDetailsServiceImpl userDetailsService, JWTUtil jwtUtil) {
         this.env = env;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;

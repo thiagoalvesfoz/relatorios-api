@@ -35,7 +35,7 @@ public class AuthController {
     @PostMapping("/refresh_token")
     public ResponseEntity<Void> refreshToken(HttpServletResponse res) {
         UserSecurity user = AuthService.authenticated();
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user);
         res.addHeader("Authorization", "Bearer " + token);
         return ResponseEntity.noContent().build();
     }
