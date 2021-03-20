@@ -36,8 +36,8 @@ public class UserService extends DefaultService<User, UserRepository>{
 			throw new BusinessRuleException("E-mail already registered!"); 
 		});
 
-		newAccount.setPassword(bcrypt.encode(RandomString.make(8)));
-		return super.save(newAccount);
+		newAccount.setPassword(RandomString.make(8));
+		return repository.save(newAccount);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class UserService extends DefaultService<User, UserRepository>{
 
 		UserSecurity user = AuthService.authenticated();
 
-		if (user == null || !user.hasRole("ADMIN") && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole("ROLE_ADMIN") && !id.equals(user.getId())) {
 			throw new AuthorizationException("Access denied!");
 		}
 
