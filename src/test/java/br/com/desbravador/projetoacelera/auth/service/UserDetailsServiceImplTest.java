@@ -1,0 +1,70 @@
+package br.com.desbravador.projetoacelera.auth.service;
+
+import br.com.desbravador.projetoacelera.auth.UserSecurity;
+import br.com.desbravador.projetoacelera.users.domain.User;
+import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(SpringExtension.class)
+public class UserDetailsServiceImplTest {
+
+    @InjectMocks
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Mock
+    private UserRepository repository;
+
+    @Test
+    @DisplayName("deve identificar o usuário por e-mail com sucesso.")
+    public void test_must_successfully_identify_the_user_by_email() {
+
+        User user = getUser();
+        String username = user.getEmail();
+
+        when(repository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        UserDetails result = userDetailsService.loadUserByUsername(username);
+
+        Assertions.assertEquals(username, result.getUsername());
+
+    }
+
+    @Test
+    @DisplayName("deve lançar uma exceção se o email do usuario nao for encontrado para autenticação.")
+    public void test_should_throw_an_exception_if_the_user_email_is_not_found_for_authentication() {
+
+
+        String username = "email@inexistente.com";
+
+        when(repository.findByEmail(any())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+            userDetailsService.loadUserByUsername(username);
+        });
+
+    }
+
+    private User getUser() {
+        User user = new User();
+        user.setId(1L);
+        user.setName("Thiago Alves");
+        user.setEmail("teste@teste.com");
+        user.setPassword("test@123");
+        return user;
+    }
+
+}
