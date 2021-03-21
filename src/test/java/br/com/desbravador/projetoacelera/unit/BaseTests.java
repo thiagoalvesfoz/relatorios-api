@@ -23,12 +23,9 @@ public class BaseTests {
 
     protected void authenticatedMock(String email, boolean admin) {
 
-        User user = new User();
-        user.setId(1L);
-        user.setName("User Tester");
+        User user = getUser();
         user.setEmail(email);
         user.setAdmin(admin);
-        user.setActive(true);
 
         UserSecurity principal = new UserSecurity(user);
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(principal);
