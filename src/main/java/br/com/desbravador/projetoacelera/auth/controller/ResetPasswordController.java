@@ -34,11 +34,13 @@ public class ResetPasswordController {
 
     @PostMapping
     public String processResetPassword(HttpServletRequest request, Model model) {
+
+        model.addAttribute("title", "Reset your password");
+
         String token = request.getParameter("token");
         String password = request.getParameter("password");
 
         User user = service.getUserByToken(token);
-        model.addAttribute("title", "Reset your password");
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
@@ -47,7 +49,9 @@ public class ResetPasswordController {
 
         user.setActive(true);
         service.updatePassword(user, password);
+
         model.addAttribute("message", "You have successfully changed your password.");
+
         return "message";
     }
 }

@@ -1,11 +1,9 @@
 package br.com.desbravador.projetoacelera.auth.service;
 
-import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,12 +25,10 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class AuthServiceTest {
 
-    @InjectMocks
-    private AuthService authService;
-
     @Spy
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
+    @InjectMocks
+    private AuthService authService;
     @Mock
     private UserRepository userRepositoryMock;
 
@@ -54,8 +51,8 @@ public class AuthServiceTest {
 
         User userResult = authService.updateResetPasswordToken(token, email);
 
-        Assertions.assertEquals(token, userResult.getToken());
-        Assertions.assertEquals(email, userResult.getEmail());
+        assertEquals(token, userResult.getToken());
+        assertEquals(email, userResult.getEmail());
 
     }
 
@@ -68,9 +65,7 @@ public class AuthServiceTest {
 
         when(userRepositoryMock.findByEmail(email)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            authService.updateResetPasswordToken(token, email);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> authService.updateResetPasswordToken(token, email));
 
     }
 
@@ -88,8 +83,8 @@ public class AuthServiceTest {
         ArgumentCaptor<User> result = ArgumentCaptor.forClass(User.class);
         verify(userRepositoryMock).save(result.capture());
 
-        Assertions.assertNull(result.getValue().getToken());
-        Assertions.assertTrue(encoder.matches(newPassword, result.getValue().getPassword()));
+        assertNull(result.getValue().getToken());
+        assertTrue(encoder.matches(newPassword, result.getValue().getPassword()));
     }
 
 

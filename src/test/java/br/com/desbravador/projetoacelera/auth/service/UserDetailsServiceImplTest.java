@@ -1,10 +1,7 @@
 package br.com.desbravador.projetoacelera.auth.service;
 
-import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
-import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +38,7 @@ public class UserDetailsServiceImplTest {
 
         UserDetails result = userDetailsService.loadUserByUsername(username);
 
-        Assertions.assertEquals(username, result.getUsername());
+        assertEquals(username, result.getUsername());
 
     }
 
@@ -52,9 +51,7 @@ public class UserDetailsServiceImplTest {
 
         when(repository.findByEmail(any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername(username);
-        });
+        assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(username));
 
     }
 
