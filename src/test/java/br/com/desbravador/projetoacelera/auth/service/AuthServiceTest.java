@@ -1,5 +1,6 @@
 package br.com.desbravador.projetoacelera.auth.service;
 
+import br.com.desbravador.projetoacelera.BaseTests;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class AuthServiceTest {
+public class AuthServiceTest extends BaseTests {
 
     @Spy
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -85,16 +86,6 @@ public class AuthServiceTest {
 
         assertNull(result.getValue().getToken());
         assertTrue(encoder.matches(newPassword, result.getValue().getPassword()));
-    }
-
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("Thiago Alves");
-        user.setEmail("test@test.com");
-        user.setPassword("test@123");
-        return user;
     }
 
 }

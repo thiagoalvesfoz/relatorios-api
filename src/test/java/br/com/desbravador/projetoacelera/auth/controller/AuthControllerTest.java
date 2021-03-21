@@ -1,8 +1,8 @@
 package br.com.desbravador.projetoacelera.auth.controller;
 
+import br.com.desbravador.projetoacelera.BaseTests;
 import br.com.desbravador.projetoacelera.auth.ForgotPasswordDTO;
 import br.com.desbravador.projetoacelera.auth.JWTUtil;
-import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;
@@ -14,13 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class AuthControllerTest {
+public class AuthControllerTest extends BaseTests {
 
     private final String TOKEN_JWT =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
@@ -53,34 +49,15 @@ public class AuthControllerTest {
 
     @BeforeEach
     public void setupMock() {
-        MockitoAnnotations.initMocks(this);
-        Authentication authentication = mock(Authentication.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
         when(jwtUtil.generateToken(any())).thenReturn(TOKEN_JWT);
         doNothing().when(emailService).sendHtmlResetPasswordEmail(any(), any());
-
-    }
-
-    private void authenticatedMock() {
-
-        User user = new User();
-        user.setId(1L);
-        user.setName("User Tester");
-        user.setEmail("user@teste.com");
-        user.setActive(true);
-
-        UserSecurity principal = new UserSecurity(user);
-        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(principal);
     }
 
     @Test
     @DisplayName("deve retornar um novo token jwt quando o usuario autenticado solicitar")
     public void test_should_return_a_new_jwt_token_when_the_authenticated_user_requests() {
 
-        authenticatedMock();
+        authenticatedMock("user@teste.com", true);
 
         ResponseEntity<Map<String, String>> result = authController.refreshToken();
 
@@ -121,7 +98,6 @@ public class AuthControllerTest {
                     return new User();
                 }
         );
-
 
         ResponseEntity<Void> result = authController.forgotPassword(dtoInput, request);
 

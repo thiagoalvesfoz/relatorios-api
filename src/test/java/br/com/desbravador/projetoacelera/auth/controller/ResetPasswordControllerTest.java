@@ -1,7 +1,7 @@
 package br.com.desbravador.projetoacelera.auth.controller;
 
+import br.com.desbravador.projetoacelera.BaseTests;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
-import br.com.desbravador.projetoacelera.users.domain.User;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,15 +22,13 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class ResetPasswordControllerTest {
-
-    @InjectMocks
-    private ResetPasswordController resetPasswordController;
-
-    @Mock
-    private AuthService authServiceMock;
+public class ResetPasswordControllerTest extends BaseTests {
 
     private final Model model = new ExtendedModelMap();
+    @InjectMocks
+    private ResetPasswordController resetPasswordController;
+    @Mock
+    private AuthService authServiceMock;
 
     @Test
     @DisplayName("deve retornar o formulário para redefinição de senha quando o token for válido")
@@ -94,15 +92,6 @@ public class ResetPasswordControllerTest {
         resetPasswordController.renderFormResetPassword(token, model);
 
         assertEquals(messageExpect, model.getAttribute("message"));
-    }
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("Thiago Alves");
-        user.setEmail("teste@teste.com");
-        user.setPassword("teste@123");
-        return user;
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.desbravador.projetoacelera.auth.service;
 
+import br.com.desbravador.projetoacelera.BaseTests;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserDetailsServiceImplTest {
+public class UserDetailsServiceImplTest extends BaseTests {
 
     @InjectMocks
     private UserDetailsServiceImpl userDetailsService;
@@ -46,7 +47,6 @@ public class UserDetailsServiceImplTest {
     @DisplayName("deve lançar uma exceção se o email do usuario nao for encontrado para autenticação.")
     public void test_should_throw_an_exception_if_the_user_email_is_not_found_for_authentication() {
 
-
         String username = "email@inexistente.com";
 
         when(repository.findByEmail(any())).thenReturn(Optional.empty());
@@ -54,14 +54,4 @@ public class UserDetailsServiceImplTest {
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(username));
 
     }
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("Thiago Alves");
-        user.setEmail("teste@teste.com");
-        user.setPassword("test@123");
-        return user;
-    }
-
 }

@@ -1,31 +1,31 @@
 package br.com.desbravador.projetoacelera.users.service;
 
+import br.com.desbravador.projetoacelera.BaseTests;
 import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(SpringExtension.class)
-public class UserServiceTest {
+public class UserServiceTest extends BaseTests {
 
     @InjectMocks
     private UserService userService;
@@ -35,27 +35,8 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setupMock() {
-        MockitoAnnotations.initMocks(this);
-        Authentication authentication = mock(Authentication.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
         when(userRepositoryMock.findByEmail(ArgumentMatchers.anyString())).thenReturn(Optional.of(getUser()));
         when(userRepositoryMock.save(ArgumentMatchers.any())).thenReturn(getUser());
-    }
-
-    private void authenticatedMock(String email, boolean admin){
-
-        User user = new User();
-        user.setId(1L);
-        user.setName("User Tester");
-        user.setEmail(email);
-        user.setAdmin(admin);
-        user.setActive(true);
-
-        UserSecurity principal = new UserSecurity(user);
-        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(principal);
     }
 
     @Test
@@ -74,7 +55,7 @@ public class UserServiceTest {
 
         User result = userService.save(newUser);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
 
     }
 
@@ -84,9 +65,7 @@ public class UserServiceTest {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(null);
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.save(getUser());
-        });
+        assertThrows(AuthorizationException.class, () -> userService.save(getUser()));
     }
 
     @Test
@@ -95,9 +74,7 @@ public class UserServiceTest {
 
         authenticatedMock("user@desbravador.com", false);
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.save(getUser());
-        });
+        assertThrows(AuthorizationException.class, () -> userService.save(getUser()));
     }
 
     @Test
@@ -110,9 +87,7 @@ public class UserServiceTest {
 
         when(userRepositoryMock.findByEmail(ArgumentMatchers.anyString())).thenReturn(Optional.of(newUser));
 
-        Assertions.assertThrows(BusinessRuleException.class, () -> {
-            userService.save(newUser);
-        });
+        assertThrows(BusinessRuleException.class, () -> userService.save(newUser));
     }
 
     @Test
@@ -121,9 +96,7 @@ public class UserServiceTest {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(null);
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.findOne(1L);
-        });
+        assertThrows(AuthorizationException.class, () -> userService.findOne(1L));
 
     }
 
@@ -141,9 +114,7 @@ public class UserServiceTest {
 
         Long findAnotherUserById = 123344L;
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.findOne(findAnotherUserById);
-        });
+        assertThrows(AuthorizationException.class, () -> userService.findOne(findAnotherUserById));
 
     }
 
@@ -159,7 +130,7 @@ public class UserServiceTest {
 
         User result = userService.findOne(user.getId());
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -172,7 +143,7 @@ public class UserServiceTest {
 
         User result = userService.findOne(123145L);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -183,9 +154,7 @@ public class UserServiceTest {
 
         when(userRepositoryMock.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            userService.findOne(123415L);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userService.findOne(123415L));
     }
 
     @Test
@@ -205,7 +174,7 @@ public class UserServiceTest {
 
         User result = userService.update(idCurrentUser, inputUser);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -216,9 +185,7 @@ public class UserServiceTest {
 
         when(userRepositoryMock.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.findOne(1L);
-        });
+        assertThrows(AuthorizationException.class, () -> userService.findOne(1L));
 
     }
 
@@ -230,9 +197,7 @@ public class UserServiceTest {
 
         when(userRepositoryMock.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            userService.findOne(1234L);
-        });
+        assertThrows(AuthorizationException.class, () -> userService.findOne(1234L));
 
     }
 
@@ -251,7 +216,7 @@ public class UserServiceTest {
 
         User result = userService.update(14234L, inputUser);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -266,19 +231,6 @@ public class UserServiceTest {
 
         when(userRepositoryMock.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            userService.update(123415L, inputUser);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userService.update(123415L, inputUser));
     }
-
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("Foo");
-        user.setEmail("test@test.com");
-        user.setPassword("password");
-        return user;
-    }
-
 }
