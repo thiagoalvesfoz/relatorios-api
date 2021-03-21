@@ -1,8 +1,9 @@
-package br.com.desbravador.projetoacelera.auth.controller;
+package br.com.desbravador.projetoacelera.unit.auth.controller;
 
-import br.com.desbravador.projetoacelera.BaseTests;
+import br.com.desbravador.projetoacelera.unit.BaseTests;
 import br.com.desbravador.projetoacelera.auth.ForgotPasswordDTO;
 import br.com.desbravador.projetoacelera.auth.JWTUtil;
+import br.com.desbravador.projetoacelera.auth.controller.AuthController;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.email.EmailService;
 import br.com.desbravador.projetoacelera.users.domain.User;

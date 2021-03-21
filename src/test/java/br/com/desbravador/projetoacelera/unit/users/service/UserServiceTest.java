@@ -1,9 +1,10 @@
-package br.com.desbravador.projetoacelera.users.service;
+package br.com.desbravador.projetoacelera.unit.users.service;
 
-import br.com.desbravador.projetoacelera.BaseTests;
+import br.com.desbravador.projetoacelera.unit.BaseTests;
 import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.users.service.UserService;
 import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
@@ -41,7 +42,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("O administrador deve registrar um novo usuario com sucesso")
-    public void test_ShouldSaveSuccessfullySaveTheNewUser() {
+    public void test_should_save_successfully_save_the_new_user() {
 
         authenticatedMock("admin@desbravador.com", true);
 
@@ -61,7 +62,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve registrar um novo usuario se o usuario não estiver autenticado")
-    public void test_ShouldNotSave_WhenTheUserIsNotAuthenticated() {
+    public void test_should_not_save_when_the_user_is_not_authenticated() {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(null);
 
@@ -70,7 +71,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve registrar um novo usuario se o usuario autenticado não for administrador")
-    public void test_ShouldNotSave_WhenTheAuthenticatedUserIsNotAdmin() {
+    public void test_should_not_save_when_the_authenticated_user_is_not_admin() {
 
         authenticatedMock("user@desbravador.com", false);
 
@@ -79,7 +80,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve registrar um novo usuario quando o email informado já estiver registrado")
-    public void test_ShouldNotSave_WhenTheEmailIsAlreadyRegistered() {
+    public void test_should_not_save_when_the_email_is_already_registered() {
 
         authenticatedMock("admin@desbravador.com", true);
 
@@ -92,7 +93,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deveria buscar um usuario pelo id se não estiver autenticado")
-    public void shouldNotFind_WhenTheUserIsNotAuthenticated() {
+    public void test_should_not_find_when_the_user_is_not_authenticated() {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(null);
 
@@ -102,7 +103,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve buscar outro usuario pelo id quando o usuario autenticado não for administrador")
-    public void shouldNotFindAnotherUser_WhenTheAuthenticatedUserIsNotAdmin() {
+    public void test_should_not_find_another_user_when_the_authenticated_user_is_not_admin() {
 
         User user = new User();
         user.setId(1L);
@@ -120,7 +121,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("O usuário autenticado deve ser capaz de encontrar seu próprio cadastro")
-    public void test_TheUserMustBeAbleToFindTheirOwnIdSuccessfully() {
+    public void test_the_user_must_be_able_to_find_their_own_id_successfully() {
 
         User user = getUser();
 
@@ -135,7 +136,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("O administrador deve ser capaz de encontrar qualquer usuario")
-    public void test_TheAdminMustBeAbleToFindAnyUser() {
+    public void test_the_admin_must_be_able_to_find_any_user() {
 
         authenticatedMock("admin@desbravador", true);
 
@@ -148,7 +149,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Deve lançar uma exceção caso não exista um usuario registrado com id informado")
-    public void test_ShouldThrowExceptionIfTheUserIsNotFound() {
+    public void test_should_throw_exception_if_the_user_is_not_found() {
 
         authenticatedMock("admin@desbravador.com", true);
 
@@ -159,7 +160,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("O usuario autenticado deve conseguir atualizar o próprio cadastro")
-    public void test_ShouldUpdateUserData() {
+    public void test_should_update_user_data() {
 
         User user = getUser();
         Long idCurrentUser = user.getId();
@@ -179,7 +180,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve atualizar os dados cadastrais sem autenticação")
-    public void test_ShouldNotUpdateRegistrationDataWithoutAuthentication() {
+    public void test_should_not_update_registration_data_without_authentication() {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(null);
 
@@ -191,7 +192,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Não deve atualizar dados cadastrais de outro usuario sem permissão de admin")
-    public void test_ShouldNotUpdateAnotherUsersRegistrationDataWithoutAdminPermission() {
+    public void test_should_not_update_another_users_registration_data_without_admin_permission() {
 
         authenticatedMock("user@desbravador.com", false);
 
@@ -204,7 +205,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("O administrador deve conseguir atualizar os dados de outros usuarios")
-    public void test_theAdministratorMustBeAbleToUpdateTheDataOfOtherUsers() {
+    public void test_the_admin_must_be_able_to_update_the_data_of_other_users() {
 
         authenticatedMock("admin@desbravador.com", true);
 
@@ -221,7 +222,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     @DisplayName("Deveria lançar uma exceção ao tentar atualizar o cadastro de um usuario inexistente")
-    public void test_ShouldThrowAnExceptionWhenTryingToUpdateANonExistentUserRecord() {
+    public void test_should_throw_an_exception_when_trying_to_update_a_non_existent_user_record() {
 
         authenticatedMock("admin@desbravador.com", true);
 

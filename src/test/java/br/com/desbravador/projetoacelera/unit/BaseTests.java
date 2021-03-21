@@ -1,5 +1,7 @@
-package br.com.desbravador.projetoacelera;
+package br.com.desbravador.projetoacelera.unit;
 
+
+import br.com.desbravador.projetoacelera.UserSingleton;
 import br.com.desbravador.projetoacelera.auth.UserSecurity;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import org.springframework.security.core.Authentication;
@@ -10,8 +12,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BaseTests {
-
-    private final User user = new User();
 
     public BaseTests() {
         Authentication authentication = mock(Authentication.class);
@@ -35,11 +35,6 @@ public class BaseTests {
     }
 
     public User getUser() {
-//        User user = new User();
-        user.setId(1L);
-        user.setName("Foo");
-        user.setEmail("teste@teste.com");
-        user.setPassword("password");
-        return user;
+        return UserSingleton.getInstance();
     }
 }

@@ -1,7 +1,8 @@
-package br.com.desbravador.projetoacelera.users.controller;
+package br.com.desbravador.projetoacelera.unit.users.controller;
 
-import br.com.desbravador.projetoacelera.BaseTests;
+import br.com.desbravador.projetoacelera.unit.BaseTests;
 import br.com.desbravador.projetoacelera.email.EmailService;
+import br.com.desbravador.projetoacelera.users.controller.UserController;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.dto.UserDto;
 import br.com.desbravador.projetoacelera.users.dto.input.UserInput;

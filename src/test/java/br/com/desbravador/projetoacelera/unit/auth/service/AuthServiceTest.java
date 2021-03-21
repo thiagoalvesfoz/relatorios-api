@@ -1,6 +1,7 @@
-package br.com.desbravador.projetoacelera.auth.service;
+package br.com.desbravador.projetoacelera.unit.auth.service;
 
-import br.com.desbravador.projetoacelera.BaseTests;
+import br.com.desbravador.projetoacelera.unit.BaseTests;
+import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.users.domain.User;
 import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;

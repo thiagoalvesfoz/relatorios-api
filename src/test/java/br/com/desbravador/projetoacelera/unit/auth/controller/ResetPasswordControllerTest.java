@@ -1,6 +1,7 @@
-package br.com.desbravador.projetoacelera.auth.controller;
+package br.com.desbravador.projetoacelera.unit.auth.controller;
 
-import br.com.desbravador.projetoacelera.BaseTests;
+import br.com.desbravador.projetoacelera.unit.BaseTests;
+import br.com.desbravador.projetoacelera.auth.controller.ResetPasswordController;
 import br.com.desbravador.projetoacelera.auth.service.AuthService;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
