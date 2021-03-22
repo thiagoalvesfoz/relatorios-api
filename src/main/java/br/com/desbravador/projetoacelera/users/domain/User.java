@@ -44,20 +44,28 @@ public class User implements Model, GrantedAuthority {
 	}
 	
 	public User(User user) {
-		super();
 		this.id = user.getId();
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.admin = user.isAdmin();
 		this.blocked = user.isBlocked();
-		this.active = user.isActive(false);
+		this.active = user.isActive();
 		this.token = user.getToken();
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
 	}
 
-	public Long getId() {
+	public User(Long id, String user, String email, String password, boolean admin, boolean active) {
+		this.id = id;
+		this.name = user;
+		this.email = email;
+		this.password = password;
+		this.admin = admin;
+		this.active = active;
+    }
+
+    public Long getId() {
 		return id;
 	}
 
@@ -113,8 +121,8 @@ public class User implements Model, GrantedAuthority {
 		this.blocked = blocked;
 	}
 
-	public boolean isActive(boolean b) {
-		return active;
+	public boolean isActive() {
+		return this.active;
 	}
 
 	public void setActive(boolean active) {
@@ -147,17 +155,12 @@ public class User implements Model, GrantedAuthority {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("REGISTRADO COM SUCESSO!").append("\n\n");
-		builder.append("Username: ");
-		builder.append(getName()).append("\n");
-		builder.append("Email: ");
-		builder.append(getEmail()).append("\n\n");
-		builder.append("Você deve ativar sua conta antes para ter o acesso completo no sistema!");
-		return builder.toString();
+		return "\n" + "[ " 		+
+				"id: " 			+ 	getId() 	+ ", " +
+				"Username: " 	+ 	getName() 	+ ", " +
+				"Email: " 		+ 	getEmail() 	+ ", " +
+				"active: " 		+ 	isActive() 	+ ", " +
+				"authority: "	+	getAuthority() + " ]\n";
 	}
 
-	public void updatePassword() {
-
-	}
 }

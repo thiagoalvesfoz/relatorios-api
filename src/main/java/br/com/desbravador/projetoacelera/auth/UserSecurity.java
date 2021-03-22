@@ -46,7 +46,7 @@ public class UserSecurity extends User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return super.isActive(false);
+        return super.isActive();
     }
 
     public boolean hasRole(String profile) {

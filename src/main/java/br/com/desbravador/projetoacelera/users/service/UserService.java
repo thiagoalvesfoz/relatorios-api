@@ -7,32 +7,34 @@ import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
-import br.com.desbravador.projetoacelera.web.service.DefaultService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
-public class UserService extends DefaultService<User, UserRepository>{
+public class UserService {
+
+	private final UserRepository repository;
 
 	@Autowired
-	private BCryptPasswordEncoder bcrypt;
+	public UserService(UserRepository repository) {
+		this.repository = repository;
+	}
 
-	@Override
 	@Transactional
 	public User save(User newAccount) {
 
 		UserSecurity user = AuthService.authenticated();
 
 		if (user == null || !user.hasRole("ROLE_ADMIN")) {
-			throw new AuthorizationException("Access denied!");
+			throw new AuthorizationException("Access Denied!");
 		}
 		
-		super.repository.findByEmail(newAccount.getEmail()).ifPresent( function -> {
+		repository.findByEmail(newAccount.getEmail()).ifPresent( function -> {
 			throw new BusinessRuleException("E-mail already registered!"); 
 		});
 
@@ -40,14 +42,13 @@ public class UserService extends DefaultService<User, UserRepository>{
 		return repository.save(newAccount);
 	}
 
-	@Override
 	@Transactional
 	public User findOne(Long id) {
 
 		UserSecurity user = AuthService.authenticated();
 
 		if (user == null || !user.hasRole("ROLE_ADMIN") && !id.equals(user.getId())) {
-			throw new AuthorizationException("Access denied!");
+			throw new AuthorizationException("Access Denied!");
 		}
 
 		return repository
@@ -70,7 +71,18 @@ public class UserService extends DefaultService<User, UserRepository>{
 
 		user.setUpdatedAt(Instant.now());
 
-		return super.repository.save(user);
+		return repository.save(user);
 	}
 
+	@Transactional(readOnly = true)
+	public List<User> findAll() {
+
+		UserSecurity user = AuthService.authenticated();
+
+		if (user == null || !user.isAdmin()) {
+			throw new AuthorizationException("Access Denied!");
+		}
+
+		return repository.findAll();
+	}
 }

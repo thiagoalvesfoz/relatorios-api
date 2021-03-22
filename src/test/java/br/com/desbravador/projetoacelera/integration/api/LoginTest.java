@@ -58,7 +58,7 @@ public class LoginTest extends BaseApiTest {
         userDisabledInDatabase.setName("Test User");
         userDisabledInDatabase.setEmail("tester@tester.com");
         userDisabledInDatabase.setPassword(bCryptPasswordEncoder.encode("password"));
-        userDisabledInDatabase.isActive(false);
+        userDisabledInDatabase.setActive(false);
 
         userRepository.save(userDisabledInDatabase);
 
