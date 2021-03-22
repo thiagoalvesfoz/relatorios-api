@@ -25,14 +25,16 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
+    private final AuthService service;
+    private final EmailService emailService;
 
     @Autowired
-    private AuthService service;
-
-    @Autowired
-    private EmailService emailService;
+    public AuthController(JWTUtil jwtUtil, AuthService service, EmailService emailService){
+        this.jwtUtil = jwtUtil;
+        this.service = service;
+        this.emailService = emailService;
+    }
 
     @PostMapping("/refresh_token")
     public ResponseEntity<Map<String, String>> refreshToken() {

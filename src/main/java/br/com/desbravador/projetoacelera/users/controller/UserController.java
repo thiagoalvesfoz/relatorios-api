@@ -43,7 +43,7 @@ public class UserController {
 		return ResponseEntity.ok().body(users);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+
 	@GetMapping("{id}")
 	public ResponseEntity<UserDto> getOne(@PathVariable Long id) {
 		var result = new UserDto(service.findOne(id));
@@ -64,7 +64,6 @@ public class UserController {
 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(accountUser.getId()).toUri();
 		return ResponseEntity.created(uri).body(new UserDto(accountUser));
-
 	}
 
 	@PutMapping("{id}")
