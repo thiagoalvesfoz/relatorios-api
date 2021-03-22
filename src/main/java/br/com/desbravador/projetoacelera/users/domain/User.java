@@ -51,7 +51,7 @@ public class User implements Model, GrantedAuthority {
 		this.password = user.getPassword();
 		this.admin = user.isAdmin();
 		this.blocked = user.isBlocked();
-		this.active = user.isActive();
+		this.active = user.isActive(false);
 		this.token = user.getToken();
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
@@ -113,7 +113,7 @@ public class User implements Model, GrantedAuthority {
 		this.blocked = blocked;
 	}
 
-	public boolean isActive() {
+	public boolean isActive(boolean b) {
 		return active;
 	}
 

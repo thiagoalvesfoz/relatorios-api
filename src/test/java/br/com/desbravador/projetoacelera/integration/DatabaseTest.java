@@ -11,16 +11,16 @@ import java.util.Optional;
 
 public class DatabaseTest extends BaseIntegrationTest {
 
-    @Autowired
+//    @Autowired
     private UserRepository userRepository;
 
-    @Test
+//    @Test
     @DisplayName("teste conexao com postgres")
     public void testDatabaseConnection() {
         Assertions.assertTrue(postgreDBContainer.isRunning());
     }
 
-    @Test
+//    @Test
     @DisplayName("teste carga inicial de usuarios")
     public void testInitialChargeForUser() {
 
@@ -35,6 +35,24 @@ public class DatabaseTest extends BaseIntegrationTest {
         Assertions.assertTrue(admin.get().isAdmin());
         Assertions.assertFalse(user.get().isAdmin());
 
+    }
+
+//    @Test
+    @DisplayName("teste carga inicial de usuarios")
+    public void test_a() {
+
+        User user = new User();
+        user.setName("User Tester");
+        user.setEmail("user@tester.com");
+        user.setPassword("password");
+        user.setActive(true);
+
+        User result = userRepository.save(user);
+
+
+        Assertions.assertNotNull(result);
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(user.getName(), result.getName());
     }
 
 }

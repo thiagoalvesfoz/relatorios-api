@@ -23,6 +23,7 @@ ARG profile
 ARG email
 ARG email_password
 ARG jwt_secret
+ARG email_host
 
 ENV DB_URL=${db_url}
 ENV DB_DATABASE=${db_database}
@@ -31,6 +32,7 @@ ENV DB_USER=${db_user}
 ENV PROFILE=${profile}
 ENV EMAIL=${email}
 ENV EMAIL_PASSWORD=${email_password}
+ENV EMAIL_HOST=${email_host}
 ENV JWT_SECRET=${jwt_secret}
 
 EXPOSE 8080
