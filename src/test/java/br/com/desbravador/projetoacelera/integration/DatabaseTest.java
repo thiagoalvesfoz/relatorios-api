@@ -37,22 +37,4 @@ public class DatabaseTest extends BaseIntegrationTest {
 
     }
 
-//    @Test
-    @DisplayName("teste carga inicial de usuarios")
-    public void test_a() {
-
-        User user = new User();
-        user.setName("User Tester");
-        user.setEmail("user@tester.com");
-        user.setPassword("password");
-        user.setActive(true);
-
-        User result = userRepository.save(user);
-
-
-        Assertions.assertNotNull(result);
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(user.getName(), result.getName());
-    }
-
 }
