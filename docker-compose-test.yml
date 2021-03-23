@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  relatorio_api:
+    container_name: relatorio_api
+    build:
+      context: .
+      args:
+        profile: test
+        jwt_secret: aadf399a7c52b584a16ca2a7f0eea3de3c82ea8f
+
+    ports:
+      - "8080:8080"
