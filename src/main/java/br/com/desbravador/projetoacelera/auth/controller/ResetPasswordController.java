@@ -76,6 +76,7 @@ public class ResetPasswordController {
         service.updatePassword(user, passwd.getPassword());
 
         modelAndView.addObject("successMessage", "Sua senha foi salva!");
+        modelAndView.addObject("pageTitle", "Desbravador - Sucesso");
 
         return modelAndView;
     }

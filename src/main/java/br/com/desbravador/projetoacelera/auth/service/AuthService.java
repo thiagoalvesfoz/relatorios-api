@@ -49,11 +49,14 @@ public class AuthService {
 
     public void updatePassword(User user, String newPassword) {
 
+        if(!user.isActive()) {
+            user.setActive(true);
+        }
+
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
 
         user.setToken(null);
         user.setUpdatedAt(Instant.now());
-
         userRepository.save(user);
     }
 }
