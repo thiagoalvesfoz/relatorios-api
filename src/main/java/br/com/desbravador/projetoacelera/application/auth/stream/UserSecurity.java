@@ -50,7 +50,7 @@ public class UserSecurity extends User implements UserDetails {
     }
 
     public boolean hasRole(String profile) {
-        return getAuthorities().contains(new SimpleGrantedAuthority(profile));
+        return !getAuthorities().contains(new SimpleGrantedAuthority(profile));
     }
 
 }

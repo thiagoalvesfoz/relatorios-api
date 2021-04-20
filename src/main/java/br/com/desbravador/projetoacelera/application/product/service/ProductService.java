@@ -2,6 +2,7 @@ package br.com.desbravador.projetoacelera.application.product.service;
 
 import br.com.desbravador.projetoacelera.application.product.entity.Product;
 import br.com.desbravador.projetoacelera.application.product.repository.ProductRepository;
+import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class ProductService {
     }
 
     public Product findOne(Long id) {
-        return productRepository.getOne(id);
+        return productRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
     public Product save(Product product) {

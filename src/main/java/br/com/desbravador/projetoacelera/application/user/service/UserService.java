@@ -30,7 +30,7 @@ public class UserService {
 
 		UserSecurity user = AuthService.authenticated();
 
-		if (user == null || !user.hasRole("ROLE_ADMIN")) {
+		if (user == null || user.hasRole("ROLE_ADMIN")) {
 			throw new AuthorizationException("Access Denied!");
 		}
 		
@@ -47,7 +47,7 @@ public class UserService {
 
 		UserSecurity user = AuthService.authenticated();
 
-		if (user == null || !user.hasRole("ROLE_ADMIN") && !id.equals(user.getId())) {
+		if (user == null || user.hasRole("ROLE_ADMIN") && !id.equals(user.getId())) {
 			throw new AuthorizationException("Access Denied!");
 		}
 
