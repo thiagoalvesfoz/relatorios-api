@@ -1,7 +1,7 @@
 package br.com.desbravador.projetoacelera.config;
 
-import br.com.desbravador.projetoacelera.email.EmailService;
-import br.com.desbravador.projetoacelera.email.impl.SmtpEmailService;
+import br.com.desbravador.projetoacelera.sender.EmailService;
+import br.com.desbravador.projetoacelera.sender.impl.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
 package br.com.desbravador.projetoacelera.unit.auth.controller;
 
-import br.com.desbravador.projetoacelera.auth.ChangePasswordDTO;
-import br.com.desbravador.projetoacelera.auth.controller.ResetPasswordController;
-import br.com.desbravador.projetoacelera.auth.service.AuthService;
+import br.com.desbravador.projetoacelera.application.auth.dto.ChangePasswordDTO;
+import br.com.desbravador.projetoacelera.application.auth.controller.ResetPasswordController;
+import br.com.desbravador.projetoacelera.application.auth.service.AuthService;
 import br.com.desbravador.projetoacelera.unit.BaseTests;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;

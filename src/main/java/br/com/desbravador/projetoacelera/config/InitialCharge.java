@@ -1,7 +1,7 @@
 package br.com.desbravador.projetoacelera.config;
 
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

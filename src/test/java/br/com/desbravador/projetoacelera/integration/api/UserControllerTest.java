@@ -1,7 +1,7 @@
 package br.com.desbravador.projetoacelera.integration.api;
 
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;

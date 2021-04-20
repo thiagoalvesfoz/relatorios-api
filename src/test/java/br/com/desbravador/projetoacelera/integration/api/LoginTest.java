@@ -1,8 +1,8 @@
 package br.com.desbravador.projetoacelera.integration.api;
 
 
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

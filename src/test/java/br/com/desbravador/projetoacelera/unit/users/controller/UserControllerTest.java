@@ -1,12 +1,12 @@
 package br.com.desbravador.projetoacelera.unit.users.controller;
 
 import br.com.desbravador.projetoacelera.unit.BaseTests;
-import br.com.desbravador.projetoacelera.email.EmailService;
-import br.com.desbravador.projetoacelera.users.controller.UserController;
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.dto.UserDto;
-import br.com.desbravador.projetoacelera.users.dto.input.UserInput;
-import br.com.desbravador.projetoacelera.users.service.UserService;
+import br.com.desbravador.projetoacelera.sender.EmailService;
+import br.com.desbravador.projetoacelera.application.user.controller.UserController;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.dto.UserDto;
+import br.com.desbravador.projetoacelera.application.user.dto.input.UserInput;
+import br.com.desbravador.projetoacelera.application.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

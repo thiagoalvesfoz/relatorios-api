@@ -1,9 +1,9 @@
 package br.com.desbravador.projetoacelera.unit.auth.service;
 
 import br.com.desbravador.projetoacelera.unit.BaseTests;
-import br.com.desbravador.projetoacelera.auth.service.AuthService;
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.auth.service.AuthService;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;

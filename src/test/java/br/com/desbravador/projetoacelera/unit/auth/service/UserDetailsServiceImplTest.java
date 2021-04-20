@@ -1,9 +1,9 @@
 package br.com.desbravador.projetoacelera.unit.auth.service;
 
 import br.com.desbravador.projetoacelera.unit.BaseTests;
-import br.com.desbravador.projetoacelera.auth.service.UserDetailsServiceImpl;
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.auth.service.UserDetailsServiceImpl;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,10 +1,10 @@
 package br.com.desbravador.projetoacelera.unit.users.service;
 
-import br.com.desbravador.projetoacelera.auth.UserSecurity;
+import br.com.desbravador.projetoacelera.application.auth.stream.UserSecurity;
 import br.com.desbravador.projetoacelera.unit.BaseTests;
-import br.com.desbravador.projetoacelera.users.domain.User;
-import br.com.desbravador.projetoacelera.users.domain.repository.UserRepository;
-import br.com.desbravador.projetoacelera.users.service.UserService;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
+import br.com.desbravador.projetoacelera.application.user.repository.UserRepository;
+import br.com.desbravador.projetoacelera.application.user.service.UserService;
 import br.com.desbravador.projetoacelera.web.exception.AuthorizationException;
 import br.com.desbravador.projetoacelera.web.exception.BusinessRuleException;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;

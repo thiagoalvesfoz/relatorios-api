@@ -1,12 +1,12 @@
 package br.com.desbravador.projetoacelera.unit.auth.controller;
 
 import br.com.desbravador.projetoacelera.unit.BaseTests;
-import br.com.desbravador.projetoacelera.auth.ForgotPasswordDTO;
-import br.com.desbravador.projetoacelera.auth.JWTUtil;
-import br.com.desbravador.projetoacelera.auth.controller.AuthController;
-import br.com.desbravador.projetoacelera.auth.service.AuthService;
-import br.com.desbravador.projetoacelera.email.EmailService;
-import br.com.desbravador.projetoacelera.users.domain.User;
+import br.com.desbravador.projetoacelera.application.auth.dto.ForgotPasswordDTO;
+import br.com.desbravador.projetoacelera.application.auth.config.JWTUtil;
+import br.com.desbravador.projetoacelera.application.auth.controller.AuthController;
+import br.com.desbravador.projetoacelera.application.auth.service.AuthService;
+import br.com.desbravador.projetoacelera.sender.EmailService;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
 import br.com.desbravador.projetoacelera.web.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,6 @@
 package br.com.desbravador.projetoacelera;
 
-import br.com.desbravador.projetoacelera.users.domain.User;
+import br.com.desbravador.projetoacelera.application.user.entity.User;
 
 import java.time.Instant;
 
