@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+
+  relatorio_api:
+    container_name: relatorio_api
+    build:
+      context: .
+      args:
+        profile: dev
+        jwt_secret: aadf399a7c52b584a16ca2a7f0eea3de3c82ea8f
+
+        CONFIG DATABASE
+        db_url: relatorios_db
+        db_database: relatorios
+        db_user: postgres
+        db_password: 1234567
+
+#        ADICIONE AQUI SUAS CONFIGURAÇÕES DE EMAIL
+#        #CONFIG EMAIL
+#        email_host: smtp.gmail.com
+#        email: your@email.com
+#        email_password: password
+    depends_on:
+      - relatorios_db
+    networks:
+      - desbravador_relatorios
+    ports:
+      - "8080:8080"
+
+  relatorios_db:
+    container_name: relatorios_db
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: relatorios
+      POSTGRES_PASSWORD: 1234567
+    networks:
+      - desbravador_relatorios
+
+# HABILITE CASO NÃO TENHA O PGADMIN INSTALADO
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: "admin@desbravador.com"
+#      PGADMIN_DEFAULT_PASSWORD: "root"
+#    ports:
+#      - "8081:80"
+#    depends_on:
+#      - relatorios_db
+#    networks:
+#      - desbravador_relatorios
+
+
+networks:
+  desbravador_relatorios:
+    driver: bridge
