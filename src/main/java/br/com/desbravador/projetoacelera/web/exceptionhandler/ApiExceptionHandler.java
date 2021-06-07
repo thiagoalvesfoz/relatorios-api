@@ -29,7 +29,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		var timestamp = Instant.now();
 		
-		var title = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
+		var title = "One or more fields are invalid. Fill it in correctly and try again";
 		
 		var path = request.getDescription(false).substring(4);
 		

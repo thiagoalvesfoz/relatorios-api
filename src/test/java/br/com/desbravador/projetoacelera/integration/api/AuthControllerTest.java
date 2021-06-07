@@ -92,9 +92,9 @@ public class AuthControllerTest extends BaseApiTest {
                 post("/auth/forgot_password").
         then().
                 statusCode(HttpStatus.BAD_REQUEST.value()).
-                body("title", equalTo("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")).
+                body("title", equalTo("One or more fields are invalid. Fill it in correctly and try again")).
                 body("fields[0].name", equalTo("email")).
-                body("fields[0].message", equalTo("não deve estar vazio"));
+                body("fields[0].message", equalTo("must not be empty"));
     }
 
     @Test
@@ -112,9 +112,9 @@ public class AuthControllerTest extends BaseApiTest {
                 post("/auth/forgot_password").
                 then().
                 statusCode(HttpStatus.BAD_REQUEST.value()).
-                body("title", equalTo("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")).
+                body("title", equalTo("One or more fields are invalid. Fill it in correctly and try again")).
                 body("fields[0].name", equalTo("email")).
-                body("fields[0].message", equalTo("deve ser um endereço de e-mail bem formado"));
+                body("fields[0].message", equalTo("must be a well-formed email address"));
     }
 
     @Test
