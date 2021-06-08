@@ -21,6 +21,11 @@
         <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
         <zxcvbn.version>1.2.3</zxcvbn.version>
         <lombok.version>1.18.20</lombok.version>
+
+        <!--Sonar Scanner-->
+        <sonar.projectKey>thiagoalvesfoz_relatorios-api</sonar.projectKey>
+        <sonar.organization>thiagoalvesfoz</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencies>
