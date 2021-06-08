@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-
   relatorio_api:
     container_name: relatorio_api
     build:
@@ -10,14 +9,13 @@ services:
         profile: dev
         jwt_secret: aadf399a7c52b584a16ca2a7f0eea3de3c82ea8f
 
-        CONFIG DATABASE
+        # CONFIG DATABASE
         db_url: relatorios_db
         db_database: relatorios
         db_user: postgres
         db_password: 1234567
 
-#        ADICIONE AQUI SUAS CONFIGURAÇÕES DE EMAIL
-#        #CONFIG EMAIL
+#        # CONFIG EMAIL - ADICIONE AQUI SUAS CONFIGURAÇÕES DE EMAIL
 #        email_host: smtp.gmail.com
 #        email: your@email.com
 #        email_password: password
@@ -39,7 +37,7 @@ services:
     networks:
       - desbravador_relatorios
 
-# HABILITE CASO NÃO TENHA O PGADMIN INSTALADO
+#  # HABILITE CASO NÃO TENHA O PGADMIN INSTALADO
 #  pgadmin:
 #    image: dpage/pgadmin4
 #    container_name: pgadmin
