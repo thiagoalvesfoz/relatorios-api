@@ -26,6 +26,7 @@
         <sonar.projectKey>thiagoalvesfoz_relatorios-api</sonar.projectKey>
         <sonar.organization>thiagoalvesfoz</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.sources>src/main/java,src/main/resources/templates</sonar.sources>
     </properties>
 
     <dependencies>
