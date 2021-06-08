@@ -21,7 +21,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - run: mvn clean test
+      - run: mvn clean install
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
