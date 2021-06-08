@@ -123,9 +123,9 @@ public class UserControllerTest extends BaseApiTest {
         result.then().
                 log().all().
                 statusCode(HttpStatus.BAD_REQUEST.value()).
-                body("title", equalTo("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")).
+                body("title", equalTo("One or more fields are invalid. Fill it in correctly and try again")).
                 body("fields.name", hasItems("email", "name")).
-                body("fields.message", hasItem("não deve estar em branco"));
+                body("fields.message", hasItem("must not be blank"));
     }
 
     @Test
@@ -143,9 +143,9 @@ public class UserControllerTest extends BaseApiTest {
         result.then().
                 log().all().
                 statusCode(HttpStatus.BAD_REQUEST.value()).
-                body("title", equalTo("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")).
+                body("title", equalTo("One or more fields are invalid. Fill it in correctly and try again")).
                 body("fields.name", hasItem("email")).
-                body("fields.message", hasItem("deve ser um endereço de e-mail bem formado"));
+                body("fields.message", hasItem("must be a well-formed email address"));
     }
 
     @Test
