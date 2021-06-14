@@ -32,10 +32,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
-            CredentialsDTO creds = new ObjectMapper()
+            var creds = new ObjectMapper()
                     .readValue(req.getInputStream(), CredentialsDTO.class);
 
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>());
+            var authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>());
 
             return authenticationManager.authenticate(authToken);
         }catch (IOException ex) {
@@ -45,9 +45,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication authResult) throws IOException {
-        UserSecurity user = ((UserSecurity) authResult.getPrincipal());
-
-        String token = jwtUtil.generateToken(user);
+        var user = ((UserSecurity) authResult.getPrincipal());
+        var token = jwtUtil.generateToken(user);
 
         String body = "{\"token\": \"" + token + "\"}";
         res.setContentType("Application/json");
@@ -67,8 +66,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         private String prepareMessageToJson(String message) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-            String date = formatter.format(OffsetDateTime.now());
+            var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            var date = formatter.format(OffsetDateTime.now());
 
             return "{\"timestamp\": \"" + date + "\", "
                     + "\"status\": 401, "
