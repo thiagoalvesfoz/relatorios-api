@@ -10,6 +10,7 @@ import br.com.desbravador.projetoacelera.application.product.entity.Product;
 import br.com.desbravador.projetoacelera.application.product.service.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -21,9 +22,9 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> findAll() {
+    public List<ProductDTO> findAll() {
         log.info("Requesting all products");
-        return productService.findAll();
+        return productService.findAll().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
 
     @GetMapping(path = "/{id}")
@@ -34,9 +35,9 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product save(@RequestBody Product product) {
+    public ProductDTO save(@RequestBody Product product) {
         log.info("Requesting the creation of a product: {}", product);
-        return productService.save(product);
+        return new ProductDTO(productService.save(product));
     }
 
 }
