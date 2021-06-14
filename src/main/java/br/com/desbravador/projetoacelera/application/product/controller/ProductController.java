@@ -1,6 +1,7 @@
 package br.com.desbravador.projetoacelera.application.product.controller;
 
 import br.com.desbravador.projetoacelera.application.product.dto.ProductDTO;
+import br.com.desbravador.projetoacelera.application.product.dto.ProductInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,9 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO save(@RequestBody Product product) {
+    public ProductDTO save(@RequestBody ProductInput product) {
         log.info("Requesting the creation of a product: {}", product);
-        return new ProductDTO(productService.save(product));
+        return new ProductDTO(productService.save(product.toModel()));
     }
 
 }
