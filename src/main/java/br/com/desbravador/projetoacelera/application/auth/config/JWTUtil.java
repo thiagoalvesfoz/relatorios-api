@@ -19,7 +19,7 @@ public class JWTUtil {
     private Long expiration;
 
     public String generateToken(UserSecurity user) {
-        Date date = new Date(System.currentTimeMillis());
+        var date = new Date(System.currentTimeMillis());
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
@@ -37,9 +37,9 @@ public class JWTUtil {
 
         if (claims != null) {
 
-            String username = claims.getSubject();
-            Date expirationDate = claims.getExpiration();
-            Date now = new Date(System.currentTimeMillis());
+            var username = claims.getSubject();
+            var expirationDate = claims.getExpiration();
+            var now = new Date(System.currentTimeMillis());
 
             return username != null && expirationDate != null && now.before(expirationDate);
         }
@@ -57,7 +57,7 @@ public class JWTUtil {
 
     public String getUsername(String token) {
 
-        Claims claims = getClaims(token);
+        var claims = getClaims(token);
 
         if (claims != null) {
             return claims.getSubject();

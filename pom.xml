@@ -21,6 +21,13 @@
         <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
         <zxcvbn.version>1.2.3</zxcvbn.version>
         <lombok.version>1.18.20</lombok.version>
+
+        <!--Sonar Scanner-->
+        <sonar.projectKey>thiagoalvesfoz_relatorios-api</sonar.projectKey>
+        <sonar.organization>thiagoalvesfoz</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.sources>src/main/java,src/main/resources/templates</sonar.sources>
+        <sonar.coverage.exclusions>src/**/config/*</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -151,6 +158,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <finalName>servidor-relatorios</finalName>
